@@ -5,12 +5,13 @@ import React from "react";
 import {
   Header
 } from "./components";
+import Footer from "./components/footer/footer";
 
 function App() {
   return (
     <div id ="container" className="SoupaLetras">
-      <Header/>
-      
+      <Header />
+      <Footer />
     </div>
   );
 }
