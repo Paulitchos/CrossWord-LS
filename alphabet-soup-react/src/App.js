@@ -3,14 +3,17 @@ import React from "react";
 //import { useState } from "react";
 
 import {
-  Header
+  Header,
+  Footer,
+  Gamepanel
 } from "./components";
-import Footer from "./components/footer/footer";
+
 
 function App() {
   return (
-    <div id ="container" className="SoupaLetras">
+    <div id="container" className="SoupaLetras">
       <Header />
+      <Gamepanel />
       <Footer />
     </div>
   );
