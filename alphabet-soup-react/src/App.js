@@ -2,6 +2,7 @@ import "./assets/styles/App.css";
 import React from "react";
 import { useState } from "react";
 import { LETRAS_LOGOS } from "./constants";
+import { shuffleArray } from "./helpers/index.js";
 
 import {
   Header,
@@ -31,47 +32,56 @@ function App() {
     const { value } = event.currentTarget;
     setSelectedLevel(value);
 
-    let numOfLetras;
-    const initialLetras = LETRAS_LOGOS;
+    let numOfColunas;
+    let numOfLinhas;
 
     switch (value) {
       // Level: Beginner
       case "1":
-          numOfLetras = 9 * 11;
-          for (let index = 0; index < 4; index++) {
-            initialLetras.push(...LETRAS_LOGOS);
-          }
-          break;
+        numOfColunas = 9;
+        numOfLinhas = 11;
+        break;
       // Level: Intermediate
       case "2":
-          numOfLetras = 12 * 12;
-          break;
+        numOfColunas = 12;
+        numOfLinhas = 12;
+        break;
       // Level: Advanced
       case "3":
-          numOfLetras = 12 * 17;
-          break;
+        numOfColunas = 12;
+        numOfLinhas = 15;
+        break;
       default:
-          numOfLetras = 0;
-          break;
+        numOfColunas = 0;
+        numOfLinhas = 0;
+        break;
     }
 
     
+    
 
-    
-    const slicedInitialLetras = initialLetras.slice(0, numOfLetras);
-    
+    let index = 0;
     const arrayLetras = [];
+    for (let colunas = 0; colunas < numOfColunas; colunas++) {
+      for (let linhas = 0; linhas < numOfLinhas; linhas++){
+        const initialLetras = shuffleArray(LETRAS_LOGOS);
+        const slicedInitialLetras = initialLetras.slice(0, 1);
+        arrayLetras.push({
+          key: `${slicedInitialLetras}-${index}`,
+          id: slicedInitialLetras,
+          name: slicedInitialLetras,
+        });
+        index++;
+      }
+      index++;
+    }
     
-    slicedInitialLetras.forEach((letra, index) => {
-      arrayLetras.push({
-        key: `${letra}-${index}`,
-        id: letra,
-        name: letra,
-      });
-    });
-
     setLetras([...arrayLetras]);
    };
+
+   
+
+  
 
   return (
     <div id="container" className="SoupaLetras">

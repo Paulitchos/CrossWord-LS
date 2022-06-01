@@ -23,9 +23,9 @@ function ControlPanel(props) {
             <option defaultValue value="0">
               Seleccione...
             </option>
-            <option value="1">Básico (2x3)</option>
-            <option value="2">Intermédio (3x4)</option>
-            <option value="3">Avançado (4x5)</option>
+            <option value="1">Básico (9x11)</option>
+            <option value="2">Intermédio (12x12)</option>
+            <option value="3">Avançado (12x15)</option>
           </select>
         </fieldset>
         <button

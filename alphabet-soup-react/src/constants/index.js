@@ -28,4 +28,3 @@ export const LETRAS_LOGOS = [
 ];
 
 export const TIMEOUTGAME = 20; // seconds
-export const PLACEHOLDER_CARD_PATH = "/assets/images/";
