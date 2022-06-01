@@ -1,4 +1,4 @@
-export const CARDS_LOGOS = [
+export const LETRAS_LOGOS = [
      "A",
      "B",
      "C",
