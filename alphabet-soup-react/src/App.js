@@ -1,8 +1,9 @@
 import "./assets/styles/App.css";
 import React from "react";
 import { useState } from "react";
-import { LETRAS_LOGOS } from "./constants";
-import { shuffleArray } from "./helpers/index.js";
+import { tabuleiro } from "./helpers";
+
+
 
 import {
   Header,
@@ -57,26 +58,8 @@ function App() {
         break;
     }
 
-    
-    
+    setLetras (tabuleiro(numOfLinhas,numOfColunas));
 
-    let index = 0;
-    const arrayLetras = [];
-    for (let colunas = 0; colunas < numOfColunas; colunas++) {
-      for (let linhas = 0; linhas < numOfLinhas; linhas++){
-        const initialLetras = shuffleArray(LETRAS_LOGOS);
-        const slicedInitialLetras = initialLetras.slice(0, 1);
-        arrayLetras.push({
-          key: `${slicedInitialLetras}-${index}`,
-          id: slicedInitialLetras,
-          name: slicedInitialLetras,
-        });
-        index++;
-      }
-      index++;
-    }
-    
-    setLetras([...arrayLetras]);
    };
 
    

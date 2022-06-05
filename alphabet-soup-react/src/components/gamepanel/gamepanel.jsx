@@ -1,6 +1,5 @@
 import React from "react";
 import "./gamepanel.css";
-import { Letras } from "../index";
 
 
 function GamePanel(props) {
@@ -20,9 +19,7 @@ function GamePanel(props) {
     <section className="game-panel">
       <h3 className="sr-only">Letras do Jogo</h3>
       <div id="game" className={`${gameClasse}`}>
-        {letras.map((letra) => (
-          <Letras key={letra.key} name={letra.name} />
-        ))}
+        {letras}
       </div>
     </section>
   );
