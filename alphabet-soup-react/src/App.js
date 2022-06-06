@@ -71,8 +71,10 @@ function App() {
         numOfPalavras = 0;
         break;
     }
+    
     arrayJogo = randomPalavra.slice(0, numOfPalavras);
     setBlocos(tabuleiroInicial(numOfLinhas, numOfColunas));
+
     while(palvrasLengh(arrayJogo,numOfLinhas) === false){
       randomPalavra = shuffleArray(palavras);
       arrayJogo = randomPalavra.slice(0, numOfPalavras);

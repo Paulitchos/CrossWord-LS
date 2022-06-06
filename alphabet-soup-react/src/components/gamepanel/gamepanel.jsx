@@ -18,7 +18,8 @@ function GamePanel(props) {
 
   if (selectedLevel !== "0"){
    
-    tabuleiroJogo = meterPalavras(letras,palavras)
+    tabuleiroJogo = meterPalavras(letras,palavras);
+    
   }
 
   console.log(letras);
