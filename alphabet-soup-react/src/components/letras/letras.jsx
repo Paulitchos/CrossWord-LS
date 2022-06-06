@@ -4,7 +4,8 @@ import "./letras.css";
 
 function Letras(letra) {
   return (
-    <div className="letra" data-logo={letra.name}>
+    <div className="letra flipped" data-logo={letra.name}>
+      <h1 className="letra-front">{letra.name}</h1>
     </div>
   );
 }
