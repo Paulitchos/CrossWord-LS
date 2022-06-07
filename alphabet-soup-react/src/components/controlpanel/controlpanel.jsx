@@ -5,7 +5,7 @@ import "./controlpanel.css"
 
 function ControlPanel(props) {
 
-  const { gameStarted, selectedLevel, onGameStart, onLevelChange } = props;
+  const { gameStarted, selectedLevel, onGameStart, onLevelChange, timer } = props;
   const gameStartedClass = gameStarted ? " gameStarted" : "";
   
   return (
@@ -43,7 +43,7 @@ function ControlPanel(props) {
         </p>
         <dl className={`list-item left${gameStartedClass}`}>
           <dt>Tempo de Jogo:</dt>
-          <dd id="gameTime">0</dd>
+          <dd id="gameTime">{timer}</dd>
         </dl>
         <dl className={`list-item right${gameStartedClass}`}>
           <dt>Pontuação TOP:</dt>

@@ -5,6 +5,7 @@ import { tabuleiroInicial } from "./helpers";
 import { palavras } from "./constants/tabuleiros"
 import { shuffleArray } from "./helpers";
 import { palvrasLengh } from "./helpers";
+import { useEffect } from "react";
 
 
 
@@ -15,6 +16,7 @@ import {
   ControlPanel,
 } from "./components";
 
+let timerId = undefined;
 
 function App() {
 
@@ -22,6 +24,7 @@ function App() {
   const [selectedLevel, setSelectedLevel] = useState("0");
   const [blocos, setBlocos] = useState([]);
   const [palavrasJogo, setPalavrasJogo] = useState([]);
+  const [timer, setTimer] = useState(0);
 
 
   const handleGameStart = () => {
@@ -41,29 +44,34 @@ function App() {
     let randomPalavra = shuffleArray(palavras);
     let arrayJogo = [];
     
-
+    
     let numOfColunas;
     let numOfLinhas;
     let numOfPalavras;
     
+
+
     switch (value) {
       // Level: Beginner
       case "1":
         numOfColunas = 9;
         numOfLinhas = 11;
         numOfPalavras = 6;
+        setTimer(10);
         break;
       // Level: Intermediate
       case "2":
         numOfColunas = 12;
         numOfLinhas = 12;
         numOfPalavras = 8;
+        setTimer(200);
         break;
       // Level: Advanced
       case "3":
         numOfColunas = 12;
         numOfLinhas = 15;
         numOfPalavras = 10;
+        setTimer(220);
         break;
       default:
         numOfColunas = 0;
@@ -84,6 +92,30 @@ function App() {
 
     
    };
+   useEffect(() => {
+    if (gameStarted) {
+      timerId = setInterval(() => {
+        let nextTimer;
+        setTimer((previousState) => {
+          nextTimer = previousState - 1;
+          return nextTimer;
+        });
+
+        if (nextTimer === 0) {
+          setGameStarted(false);
+
+        }
+      }, 1000);
+    } else if (timer !== 0) {
+      setTimer(0);
+    }
+    
+    return () => {
+      if (timerId) {
+        clearInterval(timerId);
+      }
+    };
+  }, [gameStarted]);
 
    
   return (
@@ -95,6 +127,7 @@ function App() {
           onGameStart={handleGameStart}
           onLevelChange={handleLevelChange}
           selectedLevel={selectedLevel}
+          timer={timer}
         />
         <Gamepanel letras = {blocos} selectedLevel={selectedLevel} palavras = {palavrasJogo}/>
       </main>
