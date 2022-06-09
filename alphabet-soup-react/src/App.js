@@ -6,6 +6,7 @@ import { palavras } from "./constants/tabuleiros"
 import { shuffleArray } from "./helpers";
 import { palvrasLengh } from "./helpers";
 import { useEffect } from "react";
+import { meterPalavras } from "./helpers";
 
 
 
@@ -23,7 +24,6 @@ function App() {
   const [gameStarted, setGameStarted] = useState(false);
   const [selectedLevel, setSelectedLevel] = useState("0");
   const [blocos, setBlocos] = useState([]);
-  const [palavrasJogo, setPalavrasJogo] = useState([]);
   const [timer, setTimer] = useState(0);
 
 
@@ -81,21 +81,24 @@ function App() {
     }
     
     arrayJogo = randomPalavra.slice(0, numOfPalavras);
-    setBlocos(tabuleiroInicial(numOfLinhas, numOfColunas));
+    let blocoInicial = tabuleiroInicial(numOfLinhas, numOfColunas);
+    
+    //setBlocos(tabuleiroInicial(numOfLinhas, numOfColunas));
 
     while(palvrasLengh(arrayJogo,numOfLinhas) === false){
       randomPalavra = shuffleArray(palavras);
       arrayJogo = randomPalavra.slice(0, numOfPalavras);
     }
     
-    setPalavrasJogo([...arrayJogo]);
+    setBlocos(meterPalavras(blocoInicial, arrayJogo))
 
     
    };
    useEffect(() => {
+     let nextTimer;
     if (gameStarted) {
       timerId = setInterval(() => {
-        let nextTimer;
+        
         setTimer((previousState) => {
           nextTimer = previousState - 1;
           return nextTimer;
@@ -129,7 +132,7 @@ function App() {
           selectedLevel={selectedLevel}
           timer={timer}
         />
-        <Gamepanel letras = {blocos} selectedLevel={selectedLevel} palavras = {palavrasJogo}/>
+        <Gamepanel letras = {blocos} selectedLevel={selectedLevel}/>
       </main>
       <Footer />
     </div>

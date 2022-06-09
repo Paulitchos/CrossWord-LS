@@ -1,12 +1,14 @@
-import React from "react";
+import Letras from "../letras/letras";
 import "./gamepanel.css";
-import { meterPalavras } from "../../helpers/index";
+import { LETRAS_LOGOS} from "../../constants/index";
+import { shuffleArray } from "../../helpers";
 
 
 function GamePanel(props) {
-  const { letras, selectedLevel, palavras } = props;
+  const { letras, selectedLevel} = props;
   let gameClasse = "";
-  let tabuleiroJogo = [];
+  
+  console.log(`gamePanel Render`);
 
   if (selectedLevel === "2") {
     gameClasse = "intermedio";
@@ -16,20 +18,34 @@ function GamePanel(props) {
     gameClasse = "";
   }
 
-  if (selectedLevel !== "0"){
-   
-    tabuleiroJogo = meterPalavras(letras,palavras);
-    
-  }
-
   console.log(letras);
-  console.log(palavras);
 
   return (
     <section className="game-panel">
       <h3 className="sr-only">Letras do Jogo</h3>
       <div id="game" className={`${gameClasse}`}>
-        {tabuleiroJogo}
+          {letras.map((bloco,index) => {
+            return bloco.map((blocoInner,innerIndex) => {
+              return (
+                <ol>
+                  {(() => {
+                    let randomletters = shuffleArray(LETRAS_LOGOS);
+                    if (blocoInner === "") {
+                      return (
+                        <Letras
+                          key={`${index} ${innerIndex}`}
+                          name={`${randomletters.slice(0,1)}`}
+                        />
+                      );
+                    } else {
+                      //console.log(blocoInner[''])
+                      return <Letras key={`${blocoInner['key']}`} name={`${blocoInner['name']}`} />;
+                    }
+                  })()}
+                </ol>
+              );
+            });
+          })}
       </div>
     </section>
   );
