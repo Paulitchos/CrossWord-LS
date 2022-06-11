@@ -5,7 +5,7 @@ import { shuffleArray } from "../../helpers";
 
 
 function GamePanel(props) {
-  const { letras, selectedLevel} = props;
+  const { letras, selectedLevel , palavras} = props;
   let gameClasse = "";
   
   console.log(`gamePanel Render`);
@@ -19,33 +19,42 @@ function GamePanel(props) {
   }
 
   console.log(letras);
+  console.log(selectedLevel); 
 
   return (
     <section className="game-panel">
-      <h3 className="sr-only">Letras do Jogo</h3>
-      <div id="game" className={`${gameClasse}`}>
-          {letras.map((bloco,index) => {
-            return bloco.map((blocoInner,innerIndex) => {
-              return (
-                <ol>
-                  {(() => {
-                    let randomletters = shuffleArray(LETRAS_LOGOS);
-                    if (blocoInner === "") {
-                      return (
-                        <Letras
-                          key={`${index} ${innerIndex}`}
-                          name={`${randomletters.slice(0,1)}`}
-                        />
-                      );
-                    } else {
-                      //console.log(blocoInner[''])
-                      return <Letras key={`${blocoInner['key']}`} name={`${blocoInner['name']}`} />;
-                    }
-                  })()}
-                </ol>
-              );
-            });
-          })}
+      <div class="flex-container">
+        <div class="flex-child primeiro">
+          
+          <h3 className={(selectedLevel === "0" ? "esconder" : "")}>Palavras do Jogo</h3>
+
+          {palavras.map(palavras => <h2>{palavras}</h2>)}
+          
+        </div>
+        <div id="game" className={`${gameClasse}`} class="flex-child segundo">
+            {letras.map((bloco,index) => {
+              return bloco.map((blocoInner,innerIndex) => {
+                return (
+                  <ol>
+                    {(() => {
+                      let randomletters = shuffleArray(LETRAS_LOGOS);
+                      if (blocoInner === "") {
+                        return (
+                          <Letras
+                            key={`${index} ${innerIndex}`}
+                            name={`${randomletters.slice(0,1)}`}
+                          />
+                        );
+                      } else {
+                        //console.log(blocoInner[''])
+                        return <Letras key={`${blocoInner['key']}`} name={`${blocoInner['name']}`} />;
+                      }
+                    })()}
+                  </ol>
+                );
+              });
+            })}
+        </div>
       </div>
     </section>
   );

@@ -18,6 +18,7 @@ import {
 } from "./components";
 
 let timerId = undefined;
+let arrayJogo = [];
 
 function App() {
 
@@ -25,7 +26,7 @@ function App() {
   const [selectedLevel, setSelectedLevel] = useState("0");
   const [blocos, setBlocos] = useState([]);
   const [timer, setTimer] = useState(0);
-
+ // const [palavras , setPalavras] = useState(["Ola","Adeus","Isec","Coimbra"]);
 
   const handleGameStart = () => {
     if (gameStarted) {
@@ -42,14 +43,11 @@ function App() {
     setSelectedLevel(value);
 
     let randomPalavra = shuffleArray(palavras);
-    let arrayJogo = [];
-    
+   
     
     let numOfColunas;
     let numOfLinhas;
     let numOfPalavras;
-    
-
 
     switch (value) {
       // Level: Beginner
@@ -132,7 +130,7 @@ function App() {
           selectedLevel={selectedLevel}
           timer={timer}
         />
-        <Gamepanel letras = {blocos} selectedLevel={selectedLevel}/>
+        <Gamepanel letras = {blocos} selectedLevel={selectedLevel} palavras={arrayJogo}/>
       </main>
       <Footer />
     </div>
