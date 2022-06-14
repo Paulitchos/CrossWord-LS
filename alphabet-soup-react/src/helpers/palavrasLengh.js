@@ -1,4 +1,4 @@
-const palvrasLengh = (palavras,maxLengh) => {
+const palavrasLengh = (palavras,maxLengh) => {
     
     for (let i = 0; i < palavras.length; i++) {
         if (palavras[i].length > maxLengh ){
@@ -9,4 +9,4 @@ const palvrasLengh = (palavras,maxLengh) => {
     return true;
 };
 
-export default palvrasLengh;
+export default palavrasLengh;

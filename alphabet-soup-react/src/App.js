@@ -2,9 +2,6 @@ import "./assets/styles/App.css";
 import React from "react";
 import { useState } from "react";
 import { tabuleiroInicial } from "./helpers";
-import { palavras } from "./constants/tabuleiros"
-import { shuffleArray } from "./helpers";
-import { palvrasLengh } from "./helpers";
 import { useEffect } from "react";
 import { meterPalavras } from "./helpers";
 
@@ -18,7 +15,6 @@ import {
 } from "./components";
 
 let timerId = undefined;
-let arrayJogo = [];
 
 function App() {
 
@@ -26,6 +22,11 @@ function App() {
   const [selectedLevel, setSelectedLevel] = useState("0");
   const [blocos, setBlocos] = useState([]);
   const [timer, setTimer] = useState(0);
+  const [numLinhas, setNumLinhas] = useState(0);
+  const [numColunas, setNumColunas] = useState(0);
+  const [numPalavras, setNumPalavras] = useState(0);
+  const [palavrasDeJogo, setPalavrasDeJogo] = useState([]);
+
  // const [palavras , setPalavras] = useState(["Ola","Adeus","Isec","Coimbra"]);
 
   const handleGameStart = () => {
@@ -42,58 +43,49 @@ function App() {
     const { value } = event.currentTarget;
     setSelectedLevel(value);
 
-    let randomPalavra = shuffleArray(palavras);
-   
-    
-    let numOfColunas;
-    let numOfLinhas;
-    let numOfPalavras;
-
     switch (value) {
       // Level: Beginner
       case "1":
-        numOfColunas = 9;
-        numOfLinhas = 11;
-        numOfPalavras = 6;
+        setNumColunas(9);
+        setNumLinhas(11);
+        setNumPalavras(6);
         setTimer(10);
         break;
       // Level: Intermediate
       case "2":
-        numOfColunas = 12;
-        numOfLinhas = 12;
-        numOfPalavras = 8;
+        setNumColunas(12);
+        setNumLinhas(12);
+        setNumPalavras(8);
         setTimer(200);
         break;
       // Level: Advanced
       case "3":
-        numOfColunas = 12;
-        numOfLinhas = 15;
-        numOfPalavras = 10;
+        setNumColunas(12);
+        setNumLinhas(15);
+        setNumPalavras(10);
         setTimer(220);
         break;
       default:
-        numOfColunas = 0;
-        numOfLinhas = 0;
-        numOfPalavras = 0;
+        setNumColunas(0);
+        setNumLinhas(0);
+        setNumPalavras(0);
         break;
     }
-    
-    arrayJogo = randomPalavra.slice(0, numOfPalavras);
-    let blocoInicial = tabuleiroInicial(numOfLinhas, numOfColunas);
-    
-    //setBlocos(tabuleiroInicial(numOfLinhas, numOfColunas));
-
-    while(palvrasLengh(arrayJogo,numOfLinhas) === false){
-      randomPalavra = shuffleArray(palavras);
-      arrayJogo = randomPalavra.slice(0, numOfPalavras);
-    }
-    
-    setBlocos(meterPalavras(blocoInicial, arrayJogo))
-
-    
+  
    };
+
    useEffect(() => {
-     let nextTimer;
+    let nextTimer;
+    let palavrasJogo;
+    let blocoInicial;
+    let blocoDeJogo;
+
+    blocoInicial = tabuleiroInicial(numLinhas, numColunas);
+    [blocoDeJogo,palavrasJogo] = meterPalavras(blocoInicial, numLinhas, numColunas, numPalavras);
+    
+    setBlocos(blocoDeJogo);
+    setPalavrasDeJogo(palavrasJogo);
+
     if (gameStarted) {
       timerId = setInterval(() => {
         
@@ -130,7 +122,7 @@ function App() {
           selectedLevel={selectedLevel}
           timer={timer}
         />
-        <Gamepanel letras = {blocos} selectedLevel={selectedLevel} palavras={arrayJogo}/>
+        <Gamepanel letras = {blocos} selectedLevel={selectedLevel} palavras={palavrasDeJogo}/>
       </main>
       <Footer />
     </div>

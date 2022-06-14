@@ -1,5 +1,4 @@
 
-
 const tabuleiroInicial = (numOfLinhas, numOfColunas) => {
   const arrayLetras = [];
   for (let linhas = 0; linhas < numOfLinhas; linhas++) {
@@ -9,7 +8,7 @@ const tabuleiroInicial = (numOfLinhas, numOfColunas) => {
     }
   }
 
-  return [...arrayLetras];
+  return ([...arrayLetras]);
 };
 
 export default tabuleiroInicial;
