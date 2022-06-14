@@ -1,7 +1,7 @@
 import "./gamepanel.css";
 
 function GamePanel(props) {
-  const { letras, selectedLevel , palavras} = props;
+  const { letras, selectedLevel , gameStarted,palavras} = props;
   let gameClasse = "";
   
   console.log(`gamePanel Render`);
@@ -22,9 +22,9 @@ function GamePanel(props) {
       <div class="flex-container">
         <div class="flex-child primeiro">
           
-          <h3 className={(selectedLevel === "0" ? "esconder" : "")}>Palavras do Jogo</h3>
+          <h3 className={(gameStarted === false ? "esconder" : "")}>Palavras do Jogo</h3>
 
-          {palavras.map(palavras => <h2>{palavras}</h2>)}
+          {palavras.map(palavras => <h2 className={(gameStarted === false ? "esconder" : "")}>{palavras}</h2>)}
           
         </div>
         <div id="game" className={`${gameClasse}`} class="flex-child segundo">
