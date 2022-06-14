@@ -122,7 +122,10 @@ function App() {
           selectedLevel={selectedLevel}
           timer={timer}
         />
-        <Gamepanel letras = {blocos} selectedLevel={selectedLevel} palavras={palavrasDeJogo}/>
+        <Gamepanel letras={blocos}
+        selectedLevel={selectedLevel} 
+        gameStarted={gameStarted}
+        palavras={palavrasDeJogo}/>
       </main>
       <Footer />
     </div>
