@@ -46,6 +46,8 @@ function App() {
     switch (value) {
       // Level: Beginner
       case "1":
+        setBlocos([]);
+        setPalavrasDeJogo([]);
         setNumColunas(9);
         setNumLinhas(11);
         setNumPalavras(6);
@@ -53,6 +55,8 @@ function App() {
         break;
       // Level: Intermediate
       case "2":
+        setBlocos([]);
+        setPalavrasDeJogo([]);
         setNumColunas(12);
         setNumLinhas(12);
         setNumPalavras(8);
@@ -60,6 +64,8 @@ function App() {
         break;
       // Level: Advanced
       case "3":
+        setBlocos([]);
+        setPalavrasDeJogo([]);
         setNumColunas(12);
         setNumLinhas(15);
         setNumPalavras(10);
@@ -69,6 +75,9 @@ function App() {
         setNumColunas(0);
         setNumLinhas(0);
         setNumPalavras(0);
+
+        setBlocos([]);
+        setPalavrasDeJogo([]);
         break;
     }
   
