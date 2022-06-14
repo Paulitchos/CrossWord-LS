@@ -55,8 +55,7 @@ const meterPalavras = (arrayLetras, numOfLinhas, numOfColunas,numOfPalavras) => 
         ) {
           //console.log(palavra[indexPalavra]);
           //arrayLetras[linha][coluna+colunaF] = <Letras key={`${linha}${coluna+colunaF}`} name={palavra[indexPalavra].charAt(colunaF)}/> ;
-          arrayLetras[linha][coluna + colunaF] = 
-            arrayLetras[linha][coluna+colunaF] = <Letras key={`${linha}${coluna+colunaF}`} name={arrayPalavras[indexPalavra].charAt(colunaF)}/>;
+          arrayLetras[linha][coluna + colunaF] = arrayLetras[linha][coluna+colunaF] = <Letras key={`${linha}${coluna+colunaF}`} name={arrayPalavras[indexPalavra].charAt(colunaF)}/>;
           
         }
       }

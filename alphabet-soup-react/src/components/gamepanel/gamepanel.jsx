@@ -19,15 +19,15 @@ function GamePanel(props) {
 
   return (
     <section className="game-panel">
-      <div class="flex-container">
-        <div class="flex-child primeiro">
+      <div className="flex-container">
+        <div className="flex-child primeiro">
           
           <h3 className={(gameStarted === false ? "esconder" : "")}>Palavras do Jogo</h3>
 
           {palavras.map(palavras => <h2 className={(gameStarted === false ? "esconder" : "")}>{palavras}</h2>)}
           
         </div>
-        <div id="game" className={`${gameClasse}`} class="flex-child segundo">
+        <div id="game" className={`${gameClasse}`} >
            {letras}
         </div>
       </div>
