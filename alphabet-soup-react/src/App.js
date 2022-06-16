@@ -3,8 +3,8 @@ import React from "react";
 import { useState } from "react";
 import { tabuleiroInicial } from "./helpers";
 import { useEffect } from "react";
-import { meterPalavras } from "./helpers";
-
+import { TIMEOUT } from "./constants/tabuleiros";
+import { meterPalavras,arraydePalavras } from "./helpers";
 
 
 import {
@@ -27,19 +27,50 @@ function App() {
   const [numPalavras, setNumPalavras] = useState(0);
   const [palavrasDeJogo, setPalavrasDeJogo] = useState([]);
 
- // const [palavras , setPalavras] = useState(["Ola","Adeus","Isec","Coimbra"]);
+ const handleGameStart = () => {
+   setGameStarted(!gameStarted);
+ };
 
-  const handleGameStart = () => {
+  
+
+   useEffect(() => {
     
-    if (gameStarted) {
-      console.log("Termina Jogo");
-      setGameStarted(false);
-    } else {
-      console.log("Inicia Jogo");
-      setGameStarted(true);  
-    }
+    let palavrasJogo;
+    let blocoInicial;
+    let blocoDeJogo;
 
-  };
+    blocoInicial = tabuleiroInicial(numLinhas, numColunas);
+    console.log(blocoInicial);
+    palavrasJogo = arraydePalavras(numLinhas,numPalavras);
+    blocoDeJogo = meterPalavras(blocoInicial, numLinhas, numColunas, palavrasJogo);
+    
+    setBlocos(blocoDeJogo);
+    setPalavrasDeJogo(palavrasJogo);
+
+    if (gameStarted) {
+      let nextTimer;
+      timerId = setInterval(() => {
+        
+        setTimer((previousState) => {
+          nextTimer = previousState - 1;
+          return nextTimer;
+        });
+
+        if (nextTimer === 0) {
+          setGameStarted(false);
+
+        }
+      }, 1000);
+    } else if (timer !== 100) {
+      setTimer(TIMEOUT);
+    }
+    
+    return () => {
+      if (timerId) {
+        clearInterval(timerId);
+      }
+    };
+  }, [gameStarted]);
 
   const handleLevelChange = (event) => {
     const { value } = event.currentTarget;
@@ -71,50 +102,9 @@ function App() {
         setNumColunas(0);
         setNumLinhas(0);
         setNumPalavras(0);
-        //setBlocos([]);
-        //setPalavrasDeJogo([]);
         break;
     }
-  
-   };
-
-   useEffect(() => {
-    let nextTimer;
-    let palavrasJogo;
-    let blocoInicial;
-    let blocoDeJogo;
-
-    blocoInicial = tabuleiroInicial(numLinhas, numColunas);
-    [blocoDeJogo,palavrasJogo] = meterPalavras(blocoInicial, numLinhas, numColunas, numPalavras);
-    
-    setBlocos(blocoDeJogo);
-    setPalavrasDeJogo(palavrasJogo);
-
-    if (gameStarted) {
-      timerId = setInterval(() => {
-        
-        setTimer((previousState) => {
-          nextTimer = previousState - 1;
-          return nextTimer;
-        });
-
-        if (nextTimer === 0) {
-          setGameStarted(false);
-
-        }
-      }, 1000);
-    } else if (timer !== 0) {
-      setTimer(0);
-      setBlocos([]);
-      setPalavrasDeJogo([]);
-    }
-    
-    return () => {
-      if (timerId) {
-        clearInterval(timerId);
-      }
-    };
-  }, [gameStarted]);
+  };
 
    
   return (

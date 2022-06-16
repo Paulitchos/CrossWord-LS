@@ -1,14 +1,15 @@
 
 const tabuleiroInicial = (numOfLinhas, numOfColunas) => {
-  const arrayLetras = [];
-  for (let linhas = 0; linhas < numOfLinhas; linhas++) {
-    arrayLetras.push([]);
-    for (let colunas = 0; colunas < numOfColunas; colunas++) {
-      arrayLetras[linhas].push("");
-    }
+  
+  let arrayLetras = new Array(numOfColunas);
+
+  for (let linha = 0; linha < numOfLinhas; linha++) {
+    arrayLetras[linha] = new Array(numOfColunas);
+    for (let coluna = 0; coluna < numOfColunas; coluna++)
+      arrayLetras[linha][coluna] = "";
   }
 
-  return ([...arrayLetras]);
+  return (arrayLetras);
 };
 
 export default tabuleiroInicial;

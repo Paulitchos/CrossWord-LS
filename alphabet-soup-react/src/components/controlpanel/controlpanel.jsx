@@ -38,9 +38,6 @@ function ControlPanel(props) {
         </button>
       </form>
       <div className="form-metadata">
-        <p id="message" role="alert" className="hide">
-          Clique em Iniciar o Jogo!
-        </p>
         <dl className={`list-item left${gameStartedClass}`}>
           <dt>Tempo de Jogo:</dt>
           <dd id="gameTime">{timer}</dd>

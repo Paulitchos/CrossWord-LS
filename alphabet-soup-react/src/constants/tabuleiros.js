@@ -18,3 +18,7 @@ export const palavras = [
   "ROMA",
   "DESENVOLVIMENTO",
 ];
+
+export const TIMEOUT = 100;
+
+

@@ -1,80 +1,135 @@
 import { LETRAS_LOGOS } from "../constants/index";
 import { shuffleArray } from "./index";
-import { palavras } from "../constants/tabuleiros";
-import { palavrasLengh } from "./index";
 import Letras from "../components/letras/letras";
-
-const meterPalavras = (arrayLetras, numOfLinhas, numOfColunas,numOfPalavras) => {
+const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
   let linha;
   let coluna;
   let randomletters;
+  let direcao;
+  let xValor;
+  let yValor;
+  let missplace = 0;
+  let linhas =[];
+  let colunas = [];
+  let xValores = [];
+  let yValores = [];
+  let tamanhoPalavra;
 
-  let misplace = 0;
+  while(true){
+    missplace = 0;
+    linhas = [];
+    colunas = [];
+    xValores = [];
+    yValores = [];
 
-   let randomPalavra = shuffleArray(palavras);
-   let arrayPalavras = randomPalavra.slice(0, numOfPalavras);
+    console.log(arrayPalavras);
 
-   while (palavrasLengh(arrayPalavras, numOfLinhas) === false) {
-     randomPalavra = shuffleArray(palavras);
-     arrayPalavras = randomPalavra.slice(0, numOfPalavras);
-   }
+    for (let indexPalavra = 0;indexPalavra < arrayPalavras.length; indexPalavra++){
+      linha = Math.round(Math.random() * (numOfLinhas - 1));
+      coluna = Math.round(Math.random() * (numOfColunas - 1));
+      direcao = Math.round(Math.random() * 7);
+      tamanhoPalavra = arrayPalavras[indexPalavra].length;
+      console.log(linha);
+      console.log(coluna);
+      console.log(direcao);
 
-  //console.log('ciclo for:');
+      switch (direcao) {
+        default: // esquerda para direita
+          xValor = 1;
+          yValor = 0;
+          break;
+        case 1: // direita para esquerda
+          xValor = -1;
+          yValor = 0;
+          break;
+        case 2: // cima para baixo
+          xValor = 0;
+          yValor = 1;
+          break;
+        case 3: // baixo para cima
+          xValor = 0;
+          yValor = -1;
+          break;
+        case 4: // diagonal para baixo -> direita
+          xValor = 1;
+          yValor = 1;
+          break;
+        case 5: // diagonal para cima -> direita
+          xValor = 1;
+          yValor = -1;
+          break;
+        case 6: // diagobal para baixo -> esquerda
+          xValor = -1;
+          yValor = 1;
+          break;
+        case 7: // diagobal para cima -> esquerda
+          xValor = -1;
+          yValor = -1;
+          break;
+      }
+
+      if (coluna + ((tamanhoPalavra - 1) * xValor) < 0 || numOfColunas <= coluna + ((tamanhoPalavra - 1) * xValor) 
+          ||linha + ((tamanhoPalavra - 1) * yValor) < 0 || numOfLinhas <= linha + ((tamanhoPalavra - 1) * yValor)) {
+          indexPalavra--;
+          continue;
+      }
+
+      for (let index = 0; index < arrayPalavras[indexPalavra].length; index++) {
+        
+        if(arrayLetras[linha + (index * yValor)][coluna + (index * xValor)] !== ""
+           && arrayLetras[linha + (index * yValor)][coluna + (index * xValor)] !== arrayPalavras[indexPalavra].charAt(index)){
+
+            missplace = 1;
+            break;
+        }
+        
+      }
+
+      if (missplace === 1)
+        break;
+      linhas.push(linha);
+      colunas.push(coluna);
+      xValores.push(xValor);
+      yValores.push(yValor);
+    }
+    if (missplace === 0)
+
+      break;
+  }
+  console.log("Saí");
+  
+
+  console.log("Check6");
 
   for (let indexPalavra = 0; indexPalavra < arrayPalavras.length; indexPalavra++) {
-    //console.log (palavra[indexPalavra]);
+   let linha_index = linhas[indexPalavra];
+   let coluna_index = colunas[indexPalavra];
+   let xValor_index = xValores[indexPalavra];
+   let yValor_index = yValores[indexPalavra];
 
-    linha = Math.floor(Math.random() * arrayLetras.length);
-    coluna = Math.floor(Math.random() * arrayLetras[0].length);
-
-    //console.log('linha:' + linha + ' coluna:' + coluna);
-
-    if (coluna + arrayPalavras[indexPalavra].length + 1 <= arrayLetras[0].length) {
-      for (
-        let checkcolunaF = 0;
-        checkcolunaF < arrayPalavras[indexPalavra].length;
-        checkcolunaF++
-      ) {
-        if (
-          arrayLetras[linha][coluna + checkcolunaF] !== "" &&
-          arrayLetras[linha][coluna + checkcolunaF] !==
-            arrayPalavras[indexPalavra].charAt(checkcolunaF)
-        ) {
-          misplace++;
-        }
-      }
-
-      if (misplace > 0) {
-        misplace = 0;
-        break;
-      } else {
-        for (
-          let colunaF = 0;
-          colunaF < arrayPalavras[indexPalavra].length;
-          colunaF++
-        ) {
-          //console.log(palavra[indexPalavra]);
-          //arrayLetras[linha][coluna+colunaF] = <Letras key={`${linha}${coluna+colunaF}`} name={palavra[indexPalavra].charAt(colunaF)}/> ;
-          arrayLetras[linha][coluna + colunaF] = arrayLetras[linha][coluna+colunaF] = <Letras key={`${linha}${coluna+colunaF}`} name={arrayPalavras[indexPalavra].charAt(colunaF)}/>;
-          
-        }
-      }
+    for (let letraIndex = 0;letraIndex < arrayPalavras[indexPalavra].length;letraIndex++) {
+          arrayLetras[linha_index  + letraIndex * yValor_index ][coluna_index  + letraIndex * xValor_index ] = (
+            <Letras
+              key={`${linha_index  + letraIndex * yValor_index }${
+                coluna_index  + letraIndex * xValor_index 
+              }`}
+              name={arrayPalavras[indexPalavra].charAt(letraIndex)}
+            />
+          );
     }
   }
 
   for (let i = 0; i < numOfLinhas; i++) {
-    for (let j = 0; j < numOfColunas; j++){
-        randomletters = shuffleArray(LETRAS_LOGOS);
-        if (arrayLetras[i][j] === "") 
-            arrayLetras[i][j] = 
-              <Letras
-                key={`${i} ${j}`}
-                name={`${randomletters.slice(0, 1)}`}
-              />
-            ;
+    for (let j = 0; j < numOfColunas; j++) {
+      randomletters = shuffleArray(LETRAS_LOGOS);
+      if (arrayLetras[i][j] === "")
+        arrayLetras[i][j] = (
+          <Letras key={`${i} ${j}`} name={`${randomletters.slice(0, 1)}`} />
+        );
     }
   }
-  return [arrayLetras , arrayPalavras];
+
+  return (arrayLetras.flat());
 
 };
 

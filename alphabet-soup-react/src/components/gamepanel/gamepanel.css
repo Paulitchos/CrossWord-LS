@@ -54,5 +54,5 @@
 }
 
 .esconder{
-  display: none;
+  display: none !important;
 }
