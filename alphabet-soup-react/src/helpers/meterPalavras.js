@@ -1,6 +1,7 @@
 import { LETRAS_LOGOS } from "../constants/index";
-import { shuffleArray } from "./index";
+import { shuffleArray, handleOnClick } from "./index";
 import Letras from "../components/letras/letras";
+
 const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
   let linha;
   let coluna;
@@ -109,7 +110,7 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
 
     for (let letraIndex = 0;letraIndex < arrayPalavras[indexPalavra].length;letraIndex++) {
           arrayLetras[linha_index  + letraIndex * yValor_index ][coluna_index  + letraIndex * xValor_index ] = (
-            <Letras
+            <Letras onCLick ={handleOnClick}
               key={`${linha_index  + letraIndex * yValor_index }${
                 coluna_index  + letraIndex * xValor_index 
               }`}
@@ -124,7 +125,7 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
       randomletters = shuffleArray(LETRAS_LOGOS);
       if (arrayLetras[i][j] === "")
         arrayLetras[i][j] = (
-          <Letras key={`${i} ${j}`} name={`${randomletters.slice(0, 1)}`} />
+          <Letras onCLick ={handleOnClick} key={`${i} ${j}`} name={`${randomletters.slice(0, 1)}`} />
         );
     }
   }

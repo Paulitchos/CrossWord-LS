@@ -4,8 +4,6 @@ function GamePanel(props) {
   const { letras, selectedLevel , gameStarted,palavras} = props;
   let gameClasse = "";
   
- //console.log(`gamePanel Render`);
-console.log(letras)
  switch (selectedLevel) {
    case "2":
      gameClasse = "intermedio";

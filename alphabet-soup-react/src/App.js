@@ -4,7 +4,7 @@ import { useState } from "react";
 import { tabuleiroInicial } from "./helpers";
 import { useEffect } from "react";
 import { TIMEOUT } from "./constants/tabuleiros";
-import { meterPalavras,arraydePalavras } from "./helpers";
+import { meterPalavras,arraydePalavras, selecionaLetras } from "./helpers";
 
 
 import {
@@ -26,6 +26,21 @@ function App() {
   const [numColunas, setNumColunas] = useState(0);
   const [numPalavras, setNumPalavras] = useState(0);
   const [palavrasDeJogo, setPalavrasDeJogo] = useState([]);
+  const [totalPoints, setTotalPoints] = useState(0);
+  const [scoreBoard, setScoreBoard] = useState([]);
+
+  const updateScoreBoard = () => {
+    setScoreBoard(JSON.parse(localStorage.getItem('scoreboard')));
+  }
+  const updatePoints = (operacaoSoma = true) => {
+    let pointsSum = totalPoints;
+    if (operacaoSoma) {
+      pointsSum += timer * (palavrasDeJogo.le111ngth / 2);
+    } else {
+      pointsSum < 5 ? (pointsSum = 0) : (pointsSum -= 5);
+    }
+    setTotalPoints(pointsSum);
+  }
 
  const handleGameStart = () => {
    setGameStarted(!gameStarted);
@@ -33,7 +48,7 @@ function App() {
 
   
 
-   useEffect(() => {
+  useEffect(() => {
     
     let palavrasJogo;
     let blocoInicial;
@@ -46,7 +61,7 @@ function App() {
     
     setBlocos(blocoDeJogo);
     setPalavrasDeJogo(palavrasJogo);
-
+    handleOnClick(palavrasJogo,blocoDeJogo);
     if (gameStarted) {
       let nextTimer;
       timerId = setInterval(() => {
@@ -82,7 +97,7 @@ function App() {
         setNumColunas(9);
         setNumLinhas(11);
         setNumPalavras(6);
-        setTimer(10);
+        setTimer(100);
         break;
       // Level: Intermediate
       case "2":
@@ -117,11 +132,15 @@ function App() {
           onLevelChange={handleLevelChange}
           selectedLevel={selectedLevel}
           timer={timer}
+          scoreBoard = {scoreBoard}
+          updateScoreBoard = {updateScoreBoard}
         />
         <Gamepanel letras={blocos}
         selectedLevel={selectedLevel} 
         gameStarted={gameStarted}
-        palavras={palavrasDeJogo}/>
+        palavras={palavrasDeJogo}
+        scoreBoard = {scoreBoard}
+        />
       </main>
       <Footer />
     </div>
