@@ -1,6 +1,5 @@
 import { LETRAS_LOGOS } from "../constants/index";
-import { shuffleArray, handleOnClick } from "./index";
-import Letras from "../components/letras/letras";
+import { shuffleArray } from "./index";
 
 const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
   let linha;
@@ -23,16 +22,16 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
     xValores = [];
     yValores = [];
 
-    console.log(arrayPalavras);
+    //console.log(arrayPalavras);
 
     for (let indexPalavra = 0;indexPalavra < arrayPalavras.length; indexPalavra++){
       linha = Math.round(Math.random() * (numOfLinhas - 1));
       coluna = Math.round(Math.random() * (numOfColunas - 1));
       direcao = Math.round(Math.random() * 7);
       tamanhoPalavra = arrayPalavras[indexPalavra].length;
-      console.log(linha);
-      console.log(coluna);
-      console.log(direcao);
+      //console.log(linha);
+      //console.log(coluna);
+      //console.log(direcao);
 
       switch (direcao) {
         default: // esquerda para direita
@@ -97,10 +96,10 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
 
       break;
   }
-  console.log("Saí");
+  //console.log("Saí");
   
 
-  console.log("Check6");
+ //console.log("Check6");
 
   for (let indexPalavra = 0; indexPalavra < arrayPalavras.length; indexPalavra++) {
    let linha_index = linhas[indexPalavra];
@@ -109,14 +108,22 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
    let yValor_index = yValores[indexPalavra];
 
     for (let letraIndex = 0;letraIndex < arrayPalavras[indexPalavra].length;letraIndex++) {
-          arrayLetras[linha_index  + letraIndex * yValor_index ][coluna_index  + letraIndex * xValor_index ] = (
-            <Letras onCLick ={handleOnClick}
+          arrayLetras[linha_index + letraIndex * yValor_index][
+            coluna_index + letraIndex * xValor_index
+          ] =
+            /*(
+            <Letras 
+              onCLick ={handleOnClick}
               key={`${linha_index  + letraIndex * yValor_index }${
                 coluna_index  + letraIndex * xValor_index 
               }`}
               name={arrayPalavras[indexPalavra].charAt(letraIndex)}
             />
-          );
+          );*/
+            {
+              key: `${linha_index  + letraIndex * yValor_index } ${coluna_index  + letraIndex * xValor_index}`,
+              name: `${arrayPalavras[indexPalavra].charAt(letraIndex)}`,
+            };
     }
   }
 
@@ -124,9 +131,10 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
     for (let j = 0; j < numOfColunas; j++) {
       randomletters = shuffleArray(LETRAS_LOGOS);
       if (arrayLetras[i][j] === "")
-        arrayLetras[i][j] = (
-          <Letras onCLick ={handleOnClick} key={`${i} ${j}`} name={`${randomletters.slice(0, 1)}`} />
-        );
+        arrayLetras[i][j] = {
+          key: `${i} ${j}`,
+          name: `${randomletters.slice(0, 1)}`,
+        };
     }
   }
 

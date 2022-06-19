@@ -18,20 +18,7 @@ const arraydePalavras = (maxLength,numOfPalavras) => {
       break;
   }
   
-  return arrayPalavras;
-  /*
-  while (true) {
-    randomPalavra = shuffleArray(palavras);
-    arrayPalavras = randomPalavra.slice(0, numOfPalavras);
-
-    for (let i = 0; i < arrayPalavras.length; i++) {
-      
-    }
-
-    break;
-  }
- */
-  
+  return arrayPalavras; 
 };
 
  

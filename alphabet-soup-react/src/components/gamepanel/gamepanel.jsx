@@ -1,7 +1,9 @@
 import "./gamepanel.css";
+import Letras from "../letras/letras";
+import { checkIfIsClicked, checkIfCompleted, checkIfWord} from "../../helpers"
 
 function GamePanel(props) {
-  const { letras, selectedLevel , gameStarted,palavras} = props;
+  const { letras, selectedLevel , gameStarted, handleOnClick,palavras} = props;
   let gameClasse = "";
   
  switch (selectedLevel) {
@@ -15,7 +17,7 @@ function GamePanel(props) {
      gameClasse = "";
      break;
  }
-
+ 
   return (
     <section className="game-panel">
       <div className="flex-container">
@@ -30,7 +32,17 @@ function GamePanel(props) {
           id="game"
           className={gameClasse + (gameStarted ? "" : " esconder")}
         >
-        {letras}
+          {letras.map((letra, index) => (
+            <Letras
+              key={letra.key}
+              letra={
+                <h1 className="letra-front" data-key={letra.key}>
+                  {letra.name}
+                </h1>
+              }
+              onClick={handleOnClick}
+            />
+          ))}
         </div>
       </div>
     </section>

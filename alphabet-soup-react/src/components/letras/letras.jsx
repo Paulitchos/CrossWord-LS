@@ -2,11 +2,11 @@ import React from "react";
 import "./letras.css";
 
 
-function Letras({letra,onCLick}) {
-  //console.log("Letra Render: " + letra.name);
+function Letras({letra, onClick}) {
+
   return (
-    <div onClick={onClick} className="letra flipped" data-logo={letra.name}>
-      {<h1 className="letra-front">{letra.name}</h1>}
+    <div className={"letra"} onClick={onClick} data-key={letra.key}>
+      {letra}
     </div>
   );
 }
