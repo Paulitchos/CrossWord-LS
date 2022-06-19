@@ -1,7 +1,7 @@
 import { LETRAS_LOGOS } from "../constants/index";
 import { shuffleArray } from "./index";
 
-const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
+const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
   let linha;
   let coluna;
   let randomletters;
@@ -9,13 +9,13 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
   let xValor;
   let yValor;
   let missplace = 0;
-  let linhas =[];
+  let linhas = [];
   let colunas = [];
   let xValores = [];
   let yValores = [];
   let tamanhoPalavra;
 
-  while(true){
+  while (true) {
     missplace = 0;
     linhas = [];
     colunas = [];
@@ -24,9 +24,13 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
 
     //console.log(arrayPalavras);
 
-    for (let indexPalavra = 0;indexPalavra < arrayPalavras.length; indexPalavra++){
-      linha = Math.round(Math.random() * (numOfLinhas - 1));
-      coluna = Math.round(Math.random() * (numOfColunas - 1));
+    for (
+      let indexPalavra = 0;
+      indexPalavra < arrayPalavras.length;
+      indexPalavra++
+    ) {
+      linha = Math.round(Math.random() * (tamanhoBloco - 1));
+      coluna = Math.round(Math.random() * (tamanhoBloco - 1));
       direcao = Math.round(Math.random() * 7);
       tamanhoPalavra = arrayPalavras[indexPalavra].length;
       //console.log(linha);
@@ -68,50 +72,58 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
           break;
       }
 
-      if (coluna + ((tamanhoPalavra - 1) * xValor) < 0 || numOfColunas <= coluna + ((tamanhoPalavra - 1) * xValor) 
-          ||linha + ((tamanhoPalavra - 1) * yValor) < 0 || numOfLinhas <= linha + ((tamanhoPalavra - 1) * yValor)) {
-          indexPalavra--;
-          continue;
+      if (
+        coluna + (tamanhoPalavra - 1) * xValor < 0 ||
+        tamanhoBloco <= coluna + (tamanhoPalavra - 1) * xValor ||
+        linha + (tamanhoPalavra - 1) * yValor < 0 ||
+        tamanhoBloco <= linha + (tamanhoPalavra - 1) * yValor
+      ) {
+        indexPalavra--;
+        continue;
       }
 
       for (let index = 0; index < arrayPalavras[indexPalavra].length; index++) {
-        
-        if(arrayLetras[linha + (index * yValor)][coluna + (index * xValor)] !== ""
-           && arrayLetras[linha + (index * yValor)][coluna + (index * xValor)] !== arrayPalavras[indexPalavra].charAt(index)){
-
-            missplace = 1;
-            break;
+        if (
+          arrayLetras[linha + index * yValor][coluna + index * xValor] !== "" &&
+          arrayLetras[linha + index * yValor][coluna + index * xValor] !==
+            arrayPalavras[indexPalavra].charAt(index)
+        ) {
+          missplace = 1;
+          break;
         }
-        
       }
 
-      if (missplace === 1)
-        break;
+      if (missplace === 1) break;
       linhas.push(linha);
       colunas.push(coluna);
       xValores.push(xValor);
       yValores.push(yValor);
     }
-    if (missplace === 0)
-
-      break;
+    if (missplace === 0) break;
   }
   //console.log("Saí");
-  
 
- //console.log("Check6");
+  //console.log("Check6");
 
-  for (let indexPalavra = 0; indexPalavra < arrayPalavras.length; indexPalavra++) {
-   let linha_index = linhas[indexPalavra];
-   let coluna_index = colunas[indexPalavra];
-   let xValor_index = xValores[indexPalavra];
-   let yValor_index = yValores[indexPalavra];
+  for (
+    let indexPalavra = 0;
+    indexPalavra < arrayPalavras.length;
+    indexPalavra++
+  ) {
+    let linha_index = linhas[indexPalavra];
+    let coluna_index = colunas[indexPalavra];
+    let xValor_index = xValores[indexPalavra];
+    let yValor_index = yValores[indexPalavra];
 
-    for (let letraIndex = 0;letraIndex < arrayPalavras[indexPalavra].length;letraIndex++) {
-          arrayLetras[linha_index + letraIndex * yValor_index][
-            coluna_index + letraIndex * xValor_index
-          ] =
-            /*(
+    for (
+      let letraIndex = 0;
+      letraIndex < arrayPalavras[indexPalavra].length;
+      letraIndex++
+    ) {
+      arrayLetras[linha_index + letraIndex * yValor_index][
+        coluna_index + letraIndex * xValor_index
+      ] =
+        /*(
             <Letras 
               onCLick ={handleOnClick}
               key={`${linha_index  + letraIndex * yValor_index }${
@@ -120,15 +132,18 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
               name={arrayPalavras[indexPalavra].charAt(letraIndex)}
             />
           );*/
-            {
-              key: `${linha_index  + letraIndex * yValor_index } ${coluna_index  + letraIndex * xValor_index}`,
-              name: `${arrayPalavras[indexPalavra].charAt(letraIndex)}`,
-            };
+        {
+          key: `${linha_index + letraIndex * yValor_index} ${
+            coluna_index + letraIndex * xValor_index
+          }`,
+          name: `${arrayPalavras[indexPalavra].charAt(letraIndex)}`,
+        };
     }
   }
 
-  for (let i = 0; i < numOfLinhas; i++) {
-    for (let j = 0; j < numOfColunas; j++) {
+  for (let i = 0; i < tamanhoBloco; i++) {
+    
+    for (let j = 0; j < tamanhoBloco; j++) {
       randomletters = shuffleArray(LETRAS_LOGOS);
       if (arrayLetras[i][j] === "")
         arrayLetras[i][j] = {
@@ -138,8 +153,7 @@ const meterPalavras = (arrayLetras,numOfLinhas, numOfColunas,arrayPalavras) => {
     }
   }
 
-  return (arrayLetras.flat());
-
+  return arrayLetras.flat();
 };
 
 export default meterPalavras;

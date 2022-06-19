@@ -15,7 +15,7 @@
   margin: 0 auto;
   padding-top: 10px;
   padding-bottom: 20px;
-  grid-template-columns: repeat(9,auto);
+  grid-template-columns: repeat(10,auto);
   gap: 1px;
   display: grid;
   justify-content: center;
@@ -30,7 +30,7 @@
 
 #game.intermedio {
   width: 80%;
-  grid-template-columns: repeat(12,auto);
+  grid-template-columns: repeat(11,auto);
 }
 
 .flex-container{

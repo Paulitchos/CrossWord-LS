@@ -20,8 +20,8 @@ function App() {
   const [selectedLevel, setSelectedLevel] = useState("0");
   const [blocos, setBlocos] = useState([]);
   const [timer, setTimer] = useState(0);
-  const [numLinhas, setNumLinhas] = useState(0);
-  const [numColunas, setNumColunas] = useState(0);
+  const [tamanhoBloco, setTamanhoBloco] = useState(0);
+  //const [numColunas, setNumColunas] = useState(0);
   const [numPalavras, setNumPalavras] = useState(0);
   const [palavrasDeJogo, setPalavrasDeJogo] = useState([]);
   const [totalPoints, setTotalPoints] = useState(0);
@@ -50,7 +50,7 @@ function App() {
   };
 
   const handleOnClick = (event) => {
-    console.log(posOfClicks.length);
+    //console.log(posOfClicks.length);
     const selectedIndex = event.target.dataset.key;
 
     let tmp = Array.from(posOfClicks);
@@ -62,12 +62,12 @@ function App() {
 
   const processCoordenates = () => {
     console.log("Entrou");
-    setXYInicio(posOfClicks[0]);
-    setXYFinal(posOfClicks[1]);
-
     console.log(posOfClicks[0]);
-    //const letra2Cord = XYFinal;
-    //let itsAWord = checkIfWord(letra1Cord, letra2Cord);
+    console.log(posOfClicks[1]);
+    
+    const cordLetra1 = posOfClicks[0];
+    const cordLetra2 = posOfClicks[1];
+    let itsAWord = checkIfWord(cordLetra1, cordLetra2);
     /*
     if (itsAWord) {
       console.log("Entrou");
@@ -90,10 +90,15 @@ function App() {
   };
 
   function checkIfWord(letra1, letra2) {
-    let XInicial = letra1[0];
-    let YInicial = letra1[2];
-    let XFinal = letra2[0];
-    let YFinal = letra2[2];
+    console.log(letra1);
+    let XInicial = Math.floor(letra1 / tamanhoBloco);
+    let YInicial = Math.floor(letra1 % tamanhoBloco);
+    let XFinal = Math.floor(letra2 / tamanhoBloco);
+    let YFinal = Math.floor(letra2 % tamanhoBloco);
+
+    //console.log(XInicial);
+    //console.log(YInicial);
+
     let xOffset;
     let yOffset;
     let palavra = "";
@@ -111,14 +116,22 @@ function App() {
 
     x = XInicial;
     y = YInicial;
-
+    console.log(tamanhoBloco);
+    //console.log(blocos[0].name);
+    
     while (true) {
-      palavra += blocos[y * 11 + x];
+      console.log(XFinal)
+      palavra += blocos[x * tamanhoBloco + y].name;
       x += yOffset;
       y += xOffset;
-      if (x === YFinal + yOffset && y === XFinal + yOffset) break;
+      console.log(x);
+      console.log(palavra);
+
+      if (x === XFinal + yOffset && y === YFinal + xOffset) break;
+      
     }
 
+    /*
     if (palavrasDeJogo.includes(palavra)) {
       if (!palavrasEncontradas.includes(palavra)) {
         tmp = Array.from(palavrasEncontradas);
@@ -130,6 +143,7 @@ function App() {
       }
     }
     return false;
+    */
   }
 
   /* if (posOfClicks.length === 0) {
@@ -154,13 +168,12 @@ function App() {
     let blocoInicial;
     let blocoDeJogo;
 
-    blocoInicial = tabuleiroInicial(numLinhas, numColunas);
+    blocoInicial = tabuleiroInicial(tamanhoBloco);
     console.log(blocoInicial);
-    palavrasJogo = arraydePalavras(numLinhas, numPalavras);
+    palavrasJogo = arraydePalavras(tamanhoBloco, numPalavras);
     blocoDeJogo = meterPalavras(
       blocoInicial,
-      numLinhas,
-      numColunas,
+      tamanhoBloco,
       palavrasJogo
     );
 
@@ -199,28 +212,23 @@ function App() {
     switch (value) {
       // Level: Beginner
       case "1":
-        setNumColunas(9);
-        setNumLinhas(11);
+        setTamanhoBloco(10);
         setNumPalavras(6);
         setTimer(100);
         break;
       // Level: Intermediate
       case "2":
-        setNumColunas(12);
-        setNumLinhas(12);
+        setTamanhoBloco(11);
         setNumPalavras(8);
         setTimer(200);
         break;
       // Level: Advanced
       case "3":
-        setNumColunas(12);
-        setNumLinhas(15);
-        setNumPalavras(10);
+        setTamanhoBloco(12);
         setTimer(220);
         break;
       default:
-        setNumColunas(0);
-        setNumLinhas(0);
+        setTamanhoBloco(0);
         setNumPalavras(0);
         break;
     }

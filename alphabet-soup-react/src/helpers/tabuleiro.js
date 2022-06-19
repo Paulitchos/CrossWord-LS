@@ -1,15 +1,14 @@
 
-const tabuleiroInicial = (numOfLinhas, numOfColunas) => {
-  
-  let arrayLetras = new Array(numOfColunas);
+const tabuleiroInicial = (tamanhoBloco) => {
+  let arrayLetras = new Array(tamanhoBloco);
 
-  for (let linha = 0; linha < numOfLinhas; linha++) {
-    arrayLetras[linha] = new Array(numOfColunas);
-    for (let coluna = 0; coluna < numOfColunas; coluna++)
+  for (let linha = 0; linha < tamanhoBloco; linha++) {
+    arrayLetras[linha] = new Array(tamanhoBloco);
+    for (let coluna = 0; coluna < tamanhoBloco; coluna++)
       arrayLetras[linha][coluna] = "";
   }
 
-  return (arrayLetras);
+  return arrayLetras;
 };
 
 export default tabuleiroInicial;
