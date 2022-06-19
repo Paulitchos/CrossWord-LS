@@ -23,11 +23,9 @@
   text-align: center;
   bottom: 10px;
   backface-visibility: hidden;
-}
-
-.letra-front {
   transform: rotateY(180deg);
 }
+
 
 .grayscale {
   filter: grayscale(1) opacity(0.5);
@@ -38,11 +36,11 @@
   box-shadow: var(--boxshadow0);
 }
 
-.letra.clicked {
+.letra-front.clicked {
     background-color: rgb(209, 0, 0);
 }
 
-.letra.inative {
+.letra-front.inative {
   box-shadow: var(--boxshadow0);
   pointer-events: none;
 }

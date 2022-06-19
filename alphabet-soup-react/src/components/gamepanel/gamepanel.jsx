@@ -3,7 +3,8 @@ import Letras from "../letras/letras";
 import { checkIfIsClicked, checkIfCompleted, checkIfWord} from "../../helpers"
 
 function GamePanel(props) {
-  const { letras, selectedLevel , gameStarted, handleOnClick,palavras} = props;
+  const { letras, selectedLevel , gameStarted, handleOnClick,palavras,clicked} = props;
+  const clickedClass = clicked ? " flipped" : "";
   let gameClasse = "";
   
  switch (selectedLevel) {
@@ -36,7 +37,7 @@ function GamePanel(props) {
             <Letras
               key={letra.key}
               letra={
-                <h1 className="letra-front" data-key={letra.key}>
+                <h1 className={"letra-front"} data-key={letra.key}>
                   {letra.name}
                 </h1>
               }

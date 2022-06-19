@@ -29,6 +29,8 @@ function App() {
   const [posOfClicks, setPosOfClicks] = useState([]);
   const [XYInicio, setXYInicio] = useState(undefined);
   const [XYFinal, setXYFinal] = useState(undefined);
+  const [clicked, setClicked] = useState([]);
+  const [palavrasEncontradas, setPalavrasEncontradas] = useState([]);
 
   const updateScoreBoard = () => {
     setScoreBoard(JSON.parse(localStorage.getItem("scoreboard")));
@@ -48,125 +50,103 @@ function App() {
   };
 
   const handleOnClick = (event) => {
+    console.log(posOfClicks.length);
     const selectedIndex = event.target.dataset.key;
 
     let tmp = Array.from(posOfClicks);
 
     tmp.push(selectedIndex);
 
-    if (posOfClicks.length === 0) {
+    setPosOfClicks(tmp);
+  };
+
+  const processCoordenates = () => {
+    console.log("Entrou");
+    setXYInicio(posOfClicks[0]);
+    setXYFinal(posOfClicks[1]);
+
+    console.log(posOfClicks[0]);
+    const letra2Cord = XYFinal;
+    /*let itsAWord = checkIfWord(letra1Cord, letra2Cord);
+    if (itsAWord) {
+      console.log("Entrou");
+      setTimeout(() => {
+        setPalavrasEncontradas((previousState) => [
+          ...previousState,
+          ...posOfClicks,
+        ]);
+        setPosOfClicks([]);
+        //setXYInicio(undefined);
+        //updatePoints(true);
+      }, 500);
+    } else {
+      setTimeout(() => {
+        setPosOfClicks([]);
+        //setXYInicio(undefined);
+        //updatePoints(false);
+      }, 500);
+    }*/
+  };
+
+  function checkIfWord(letra1, letra2) {
+    let XInicial = letra1[0];
+    let YInicial = letra1[2];
+    let XFinal = letra2[0];
+    let YFinal = letra2[2];
+    let xOffset;
+    let yOffset;
+    let palavra = "";
+    let tmp;
+    let x;
+    let y;
+
+    if (YInicial > YFinal) xOffset = -1;
+    else if (YInicial < YFinal) xOffset = 1;
+    else xOffset = 0;
+
+    if (XInicial > XFinal) yOffset = -1;
+    else if (XInicial < XFinal) yOffset = 1;
+    else yOffset = 0;
+
+    x = XInicial;
+    y = YInicial;
+
+    while (true) {
+      palavra += blocos[y * 11 + x];
+      x += yOffset;
+      y += xOffset;
+      if (x === YFinal + yOffset && y === XFinal + yOffset) break;
+    }
+
+    if (palavrasDeJogo.includes(palavra)) {
+      if (!palavrasEncontradas.includes(palavra)) {
+        tmp = Array.from(palavrasEncontradas);
+        tmp.push(palavra);
+        if (palavrasEncontradas.length === palavrasDeJogo.length - 1) {
+          console.log("Vitoria");
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /* if (posOfClicks.length === 0) {
       setPosOfClicks(tmp);
       setXYInicio(selectedIndex);
     } else {
       setPosOfClicks(tmp);
-
       if (posOfClicks.length === 2 && selectedIndex !== posOfClicks[0]) {
         setXYFinal(selectedIndex);
+        //processCoordenates();
       } else {
         setPosOfClicks([]);
       }
-    }
-    console.log(posOfClicks);
-  };
+    }*/
 
-  /*
- 
-
- const processCoordenates = () => {
-   const [letra1, letra2] = clickedCards;
-   let itsAWord = checkIfWord(letra1, letra2, letras, palavras);
-   if (itsAWord) {
-     setTimeout(() => {
-       setCompletedLetters((previousState) => [...previousState, ...clickedCards]);
-       setClickedCards([]);
-       //updatePoints(true);
-     }, 500);
-   } else {
-     setTimeout(() => {
-       setClickedCards([]);
-       //updatePoints(false);
-     }, 500);
-   }
- };
- */
-
-  /*
- function checkIfWord(letra1, letra2, board, palavras) {
-   let coordenada1 = letra1.props["data-key"];
-   let coordenada2 = letra2.props["data-key"];
-   let XInicial = coordenada1[0];
-   let YInicial = coordenada1[2];
-   let XFinal = coordenada2[0];
-   let YFinal = coordenada2[2];
-   let xOffset;
-   let yOffset;
-   let palavra = "";
-   let tmp;
-   let x;
-   let y;
-
-   if (YInicial > YFinal) xOffset = -1;
-   else if (YInicial < YFinal) xOffset = 1;
-   else xOffset = 0;
-
-   if (XInicial > XFinal) yOffset = -1;
-   else if (XInicial < XFinal) yOffset = 1;
-   else yOffset = 0;
-
-   x = XInicial;
-   y = YInicial;
-
-   while (true) {
-     palavra += board[y * boardSize + x];
-     x += yOffset;
-     y += xOffset;
-     if (x === YFinal + yOffset && y === XFinal + yOffset) break;
-   }
-
-   if (palavras.includes(palavra)) {
-     if (!foundWords.includes(palavra)) {
-       tmp = Array.from(foundWords);
-       tmp.push(word);
-       if (foundWords.length === words.length - 1) {
-         let name = prompt(
-           "Victory! You had " +
-             totalPoints +
-             " at the end of that game. What's your name?"
-         );
-         let localStorage = window.localStorage;
-         scoreboard = JSON.parse(localStorage.getItem("scoreboard"));
-         if (scoreboard != null) {
-           console.log("Scoreboard:");
-           for (let score of scoreboard) console.log(score);
-           if (scoreboard.length == 10 && getLastPoints() < totalPoints)
-             scoreboard.pop();
-           if (scoreboard.length < 10) {
-             console.log("Congratulations, you got into the scoreboard");
-             scoreboard.push({
-               name: name,
-               points: totalPoints,
-             });
-           }
-         } else {
-           scoreboard = [
-             {
-               name: name,
-               points: totalPoints,
-             },
-           ];
-         }
-         localStorage.setItem("scoreboard", JSON.stringify(scoreboard));
-         handleGameStart();
-       }
-       setFoundWords(tmp);
-       updateSelectedOrCompleted(setCompleted);
-       updatePoints(true);
-     }
-   } else updatePoints(false);
-   clearSelected();
-   setInitialSquare(undefined);
- }
-*/
+   useEffect(() => {
+     if (posOfClicks.length === 2) processCoordenates();
+   }, [posOfClicks]);
 
   useEffect(() => {
     let palavrasJogo;
@@ -186,9 +166,8 @@ function App() {
     setBlocos(blocoDeJogo);
     setPalavrasDeJogo(palavrasJogo);
     //handleOnClick(palavrasJogo,blocoDeJogo);
-    //console.log(posOfClicks);
+    console.log(posOfClicks.length);
 
-    setPosOfClicks([]);
     if (gameStarted) {
       let nextTimer;
       timerId = setInterval(() => {
@@ -266,6 +245,7 @@ function App() {
           palavras={palavrasDeJogo}
           scoreBoard={scoreBoard}
           handleOnClick={handleOnClick}
+          clicked={clicked}
         />
       </main>
       <Footer />
