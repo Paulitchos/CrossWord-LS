@@ -66,8 +66,9 @@ function App() {
     setXYFinal(posOfClicks[1]);
 
     console.log(posOfClicks[0]);
-    const letra2Cord = XYFinal;
-    /*let itsAWord = checkIfWord(letra1Cord, letra2Cord);
+    //const letra2Cord = XYFinal;
+    //let itsAWord = checkIfWord(letra1Cord, letra2Cord);
+    /*
     if (itsAWord) {
       console.log("Entrou");
       setTimeout(() => {
