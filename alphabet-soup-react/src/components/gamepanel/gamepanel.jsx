@@ -37,7 +37,10 @@ function GamePanel(props) {
             <Letras
               key={letra.key}
               letra={
-                <h1 className={"letra-front"} data-key={index}>
+                <h1
+                  className={"letra-front" + (clicked[index] ? " clicked" : "")}
+                  data-key={index}
+                >
                   {letra.name}
                 </h1>
               }

@@ -29,12 +29,14 @@ function App() {
   const [posOfClicks, setPosOfClicks] = useState([]);
   const [XYInicio, setXYInicio] = useState(undefined);
   const [XYFinal, setXYFinal] = useState(undefined);
-  const [clicked, setClicked] = useState([]);
+  const [clicked, setClicked] = useState(new Array(blocos.length));
   const [palavrasEncontradas, setPalavrasEncontradas] = useState([]);
 
   const updateScoreBoard = () => {
     setScoreBoard(JSON.parse(localStorage.getItem("scoreboard")));
   };
+
+
   const updatePoints = (operacaoSoma = true) => {
     let pointsSum = totalPoints;
     if (operacaoSoma) {
@@ -49,16 +51,87 @@ function App() {
     setGameStarted(!gameStarted);
   };
 
+
   const handleOnClick = (event) => {
     //console.log(posOfClicks.length);
     const selectedIndex = event.target.dataset.key;
+
+    
 
     let tmp = Array.from(posOfClicks);
 
     tmp.push(selectedIndex);
 
     setPosOfClicks(tmp);
+
+    mudarCor(setClicked,tmp,0);
   };
+
+  const mudarCor = (setter,indexS,i,letra1,letra2) => {
+    let tmp;
+    if(i===0){
+
+      let index1 = parseInt(indexS[0]);
+      let index2;
+      console.log(index1);
+      if (indexS.length === 2) index2 = parseInt(indexS[1]);
+
+      let XInicial = Math.floor(index1 / tamanhoBloco);
+      let YInicial = Math.floor(index1 % tamanhoBloco);
+
+      let XFinal = Math.floor(index2 / tamanhoBloco);
+      let YFinal = Math.floor(index2 % tamanhoBloco);
+
+      tmp = new Array(blocos.length);
+
+      tmp[XInicial * tamanhoBloco + YInicial] = true;
+
+      tmp[XFinal * tamanhoBloco + YFinal] = true;
+
+      setter(tmp);
+
+      
+    } else {
+
+      let XInicial = Math.floor(letra1 / tamanhoBloco);
+      let YInicial = Math.floor(letra1 % tamanhoBloco);
+      let XFinal = Math.floor(letra2 / tamanhoBloco);
+      let YFinal = Math.floor(letra2 % tamanhoBloco);
+
+      setClicked(new Array(blocos.length));
+
+
+    }
+    //console.log(setter);
+    
+
+  
+   
+
+    //if (setter === setCompleted) tmp = Array.from(completed);
+    /*else*/ 
+
+    /*if (YInicial > YFinal) xOffset = -1;
+    else if (YInicial < YFinal) xOffset = 1;
+    else xOffset = 0;
+
+    if (XInicial > XFinal) yOffset = -1;
+    else if (XInicial < XFinal) yOffset = 1;
+    else yOffset = 0;
+
+    x = XInicial;
+    y = YInicial;
+
+    do {
+      tmp[x * tamanhoBloco + y] = true;
+      x += xOffset;
+      y += yOffset;
+    } while (x !== XFinal + yOffset || y !== YFinal + xOffset); */
+
+   
+    
+  };
+
 
   const processCoordenates = () => {
     console.log("Entrou");
@@ -68,14 +141,10 @@ function App() {
     const cordLetra1 = posOfClicks[0];
     const cordLetra2 = posOfClicks[1];
     let itsAWord = checkIfWord(cordLetra1, cordLetra2);
-    /*
+    
     if (itsAWord) {
       console.log("Entrou");
       setTimeout(() => {
-        setPalavrasEncontradas((previousState) => [
-          ...previousState,
-          ...posOfClicks,
-        ]);
         setPosOfClicks([]);
         //setXYInicio(undefined);
         //updatePoints(true);
@@ -86,7 +155,7 @@ function App() {
         //setXYInicio(undefined);
         //updatePoints(false);
       }, 500);
-    }*/
+    }
   };
 
   function checkIfWord(letra1, letra2) {
@@ -119,45 +188,41 @@ function App() {
     console.log(tamanhoBloco);
     //console.log(blocos[0].name);
     
-    while (true) {
-      console.log(XFinal)
-      palavra += blocos[x * tamanhoBloco + y].name;
-      x += yOffset;
-      y += xOffset;
-      console.log(x);
-      console.log(palavra);
-
-      if (x === XFinal + yOffset && y === YFinal + xOffset) break;
-      
+    if (x !== XFinal + yOffset && y !== YFinal + xOffset){
+     
+      mudarCor(setClicked, tmp, 1,letra1,letra2);
+      return false;
     }
 
-    /*
+      while (true) {
+        console.log(XFinal);
+        palavra += blocos[x * tamanhoBloco + y].name;
+        x += yOffset;
+        y += xOffset;
+        console.log(x);
+        console.log(palavra);
+
+        if (x === XFinal + yOffset && y === YFinal + xOffset) break;
+      }
+
     if (palavrasDeJogo.includes(palavra)) {
+      console.log(palavrasEncontradas);
       if (!palavrasEncontradas.includes(palavra)) {
         tmp = Array.from(palavrasEncontradas);
         tmp.push(palavra);
         if (palavrasEncontradas.length === palavrasDeJogo.length - 1) {
           console.log("Vitoria");
         }
+        setPalavrasEncontradas(tmp);
+        //console.log("Vitoria");
         return true;
       }
+      return false;
     }
-    return false;
-    */
+      mudarCor(setClicked, tmp, 1, letra1, letra2);
+      return false;
+    
   }
-
-  /* if (posOfClicks.length === 0) {
-      setPosOfClicks(tmp);
-      setXYInicio(selectedIndex);
-    } else {
-      setPosOfClicks(tmp);
-      if (posOfClicks.length === 2 && selectedIndex !== posOfClicks[0]) {
-        setXYFinal(selectedIndex);
-        //processCoordenates();
-      } else {
-        setPosOfClicks([]);
-      }
-    }*/
 
    useEffect(() => {
      if (posOfClicks.length === 2) processCoordenates();

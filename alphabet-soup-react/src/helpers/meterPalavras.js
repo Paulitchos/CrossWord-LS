@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { LETRAS_LOGOS } from "../constants/index";
 import { shuffleArray } from "./index";
+
+
 
 const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
   let linha;
@@ -142,7 +145,7 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
   }
 
   for (let i = 0; i < tamanhoBloco; i++) {
-    
+
     for (let j = 0; j < tamanhoBloco; j++) {
       randomletters = shuffleArray(LETRAS_LOGOS);
       if (arrayLetras[i][j] === "")
