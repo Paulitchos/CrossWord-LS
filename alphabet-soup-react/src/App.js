@@ -5,7 +5,7 @@ import { tabuleiroInicial } from "./helpers";
 import { useEffect } from "react";
 import { TIMEOUT } from "./constants/tabuleiros";
 import { meterPalavras,arraydePalavras} from "./helpers";
-
+import { palavras } from "./constants/tabuleiros";
 import {
   Header,
   Footer,
@@ -51,6 +51,11 @@ function App() {
     setGameStarted(!gameStarted);
   };
 
+  const handleOnSubmit = () => {
+
+    let word = prompt("Introduza uma palavra");
+    palavras.push(word.toUpperCase());
+  }
 
   const handleOnClick = (event) => {
     //console.log(posOfClicks.length);
@@ -290,6 +295,7 @@ function App() {
       // Level: Advanced
       case "3":
         setTamanhoBloco(12);
+        setNumPalavras(10);
         setTimer(220);
         break;
       default:
@@ -311,6 +317,7 @@ function App() {
           timer={timer}
           scoreBoard={scoreBoard}
           updateScoreBoard={updateScoreBoard}
+          handleOnSubmit = {handleOnSubmit}
         />
         <Gamepanel
           letras={blocos}
