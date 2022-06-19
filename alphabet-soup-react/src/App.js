@@ -36,11 +36,14 @@ function App() {
     setScoreBoard(JSON.parse(localStorage.getItem("scoreboard")));
   };
 
+  const clearClicked = () => {
+    setClicked(new Array(blocos.length));
+  };
 
   const updatePoints = (operacaoSoma = true) => {
     let pointsSum = totalPoints;
     if (operacaoSoma) {
-      pointsSum += timer * (palavrasDeJogo.le111ngth / 2);
+      pointsSum += timer * (palavrasDeJogo.length / 2);
     } else {
       pointsSum < 5 ? (pointsSum = 0) : (pointsSum -= 5);
     }
@@ -71,57 +74,58 @@ function App() {
     mudarCor(setClicked,tmp,0);
   };
 
-  const mudarCor = (setter,indexS,i,letra1,letra2) => {
+  const mudarCor = (setter,indexS,letra1,letra2) => {
     let tmp;
-    if(i===0){
+    let index1 = parseInt(indexS[0]);
+    let index2;
+    if (indexS.length === 2) index2 = parseInt(indexS[1]);
 
-      let index1 = parseInt(indexS[0]);
-      let index2;
-      if (indexS.length === 2) index2 = parseInt(indexS[1]);
+    let XInicial = Math.floor(index1 / tamanhoBloco);
+    let YInicial = Math.floor(index1 % tamanhoBloco);
 
-      let XInicial = Math.floor(index1 / tamanhoBloco);
-      let YInicial = Math.floor(index1 % tamanhoBloco);
+    let XFinal = Math.floor(index2 / tamanhoBloco);
+    let YFinal = Math.floor(index2 % tamanhoBloco);
 
-      let XFinal = Math.floor(index2 / tamanhoBloco);
-      let YFinal = Math.floor(index2 % tamanhoBloco);
 
+    if (setter === setClicked){
       tmp = new Array(blocos.length);
-
       tmp[XInicial * tamanhoBloco + YInicial] = true;
 
       tmp[XFinal * tamanhoBloco + YFinal] = true;
 
       setter(tmp);
+    } else {
+       tmp = new Array(completa);
+       let YInicial = Math.floor(letra1 / tamanhoBloco);
+       let XInicial = Math.floor(letra1 % tamanhoBloco);
+       let YFinal = Math.floor(letra2 / tamanhoBloco);
+       let XFinal = Math.floor(letra2 % tamanhoBloco);
 
-      
-    } else if(i ===1) {
+       const tamanhoPalavra =
+         Math.max(Math.abs(XInicial - XFinal), Math.abs(YInicial - YFinal)) + 1;
 
-      let XInicial = Math.floor(letra1 / tamanhoBloco);
-      let YInicial = Math.floor(letra1 % tamanhoBloco);
-      let XFinal = Math.floor(letra2 / tamanhoBloco);
-      let YFinal = Math.floor(letra2 % tamanhoBloco);
+       let xOffset;
+       let yOffset;
 
-      tmp = new Array(blocos.length);
+       if (YInicial > YFinal) yOffset = -1;
+       else if (YInicial < YFinal) yOffset = 1;
+       else yOffset = 0;
 
-      tmp[XInicial * tamanhoBloco + YInicial] = false;
+       if (XInicial > XFinal) xOffset = -1;
+       else if (XInicial < XFinal) xOffset = 1;
+       else xOffset = 0;
 
-      tmp[XFinal * tamanhoBloco + YFinal] = false;
+       console.log(completa);
 
-      setter(tmp);
-    } else if(i===2){
+       for (let index = 0; index < tamanhoPalavra; index++) {
+         let y = YInicial + index * yOffset;
+         let x = XInicial + index * xOffset;
 
-      let XInicial = Math.floor(letra1 / tamanhoBloco);
-      let YInicial = Math.floor(letra1 % tamanhoBloco);
-      let XFinal = Math.floor(letra2 / tamanhoBloco);
-      let YFinal = Math.floor(letra2 % tamanhoBloco);
+         let i = y * tamanhoBloco + x;
 
-      tmp = new Array(blocos.length);
-
-      tmp[XInicial * tamanhoBloco + YInicial] = true;
-
-      tmp[XFinal * tamanhoBloco + YFinal] = true;
-
-      setter(tmp);
+         tmp[i] = true;
+       }
+       setter(tmp);
 
     }
   
@@ -137,8 +141,7 @@ function App() {
     if (itsAWord) {
       setTimeout(() => {
         setPosOfClicks([]);
-        //setXYInicio(undefined);
-        //updatePoints(true);
+        updatePoints(true);
       }, 500);
     } else {
       setTimeout(() => {
@@ -190,13 +193,16 @@ function App() {
         tmp = Array.from(palavrasEncontradas);
         tmp.push(palavra);
         if (palavrasEncontradas.length === palavrasDeJogo.length - 1) {
+          let name = alert("Vitoria! Tiveste " + totalPoints + " pontos");
         }
         setPalavrasEncontradas(tmp);
+        mudarCor(setCompleta, tmpClicked, letra1, letra2);
         return true;
       }
+      clearClicked();
       return false;
     }
-      mudarCor(setClicked, tmpClicked, 2, letra1, letra2);
+      clearClicked();
       return false;
     
   }
@@ -220,6 +226,8 @@ function App() {
 
     setBlocos(blocoDeJogo);
     setPalavrasDeJogo(palavrasJogo);
+    setCompleta(new Array(blocos.length));
+    
 
     if (gameStarted) {
       let nextTimer;
@@ -234,9 +242,10 @@ function App() {
         }
       }, 1000);
     } else if (timer !== 100) {
-      setTimer(TIMEOUT);
-    }
 
+      setTimer(100);
+
+    }
     return () => {
       if (timerId) {
         clearInterval(timerId);
@@ -253,19 +262,19 @@ function App() {
       case "1":
         setTamanhoBloco(10);
         setNumPalavras(6);
-        setTimer(500);
+        setTimer(200);
         break;
       // Level: Intermediate
       case "2":
         setTamanhoBloco(11);
         setNumPalavras(8);
-        setTimer(200);
+        setTimer(150);
         break;
       // Level: Advanced
       case "3":
         setTamanhoBloco(12);
         setNumPalavras(10);
-        setTimer(220);
+        setTimer(100);
         break;
       default:
         setTamanhoBloco(0);
@@ -284,8 +293,7 @@ function App() {
           onLevelChange={handleLevelChange}
           selectedLevel={selectedLevel}
           timer={timer}
-          scoreBoard={scoreBoard}
-          updateScoreBoard={updateScoreBoard}
+          scoreBoard={totalPoints}
           handleOnSubmit={handleOnSubmit}
         />
         <Gamepanel
@@ -296,7 +304,7 @@ function App() {
           scoreBoard={scoreBoard}
           handleOnClick={handleOnClick}
           clicked={clicked}
-          completa = {completa}
+          completa={completa}
         />
       </main>
       <Footer />

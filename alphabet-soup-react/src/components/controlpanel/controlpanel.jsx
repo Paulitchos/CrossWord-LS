@@ -5,7 +5,7 @@ import "./controlpanel.css"
 
 function ControlPanel(props) {
 
-  const { gameStarted, selectedLevel, onGameStart, onLevelChange, timer, scoreBoard, updateScoreBoard, handleOnSubmit } = props;
+  const { gameStarted, selectedLevel, onGameStart, onLevelChange, timer, scoreBoard, handleOnSubmit } = props;
   const gameStartedClass = gameStarted ? " gameStarted" : "";
   
   return (
@@ -48,10 +48,12 @@ function ControlPanel(props) {
         </dl>
         <dl className={`list-item left${gameStartedClass}`}>
           <dt>Pontuação:</dt>
-          <dd id="points">0</dd>
+          <dd id="points">{scoreBoard}</dd>
         </dl>
         <div id="top10" className={`right`}>
-          <button id="btTop" onClick={handleOnSubmit}disabled={gameStarted}>Submit</button>
+          <button id="btTop" onClick={handleOnSubmit} disabled={gameStarted}>
+            Submeter
+          </button>
         </div>
       </div>
     </section>
