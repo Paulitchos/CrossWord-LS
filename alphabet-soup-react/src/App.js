@@ -21,7 +21,6 @@ function App() {
   const [blocos, setBlocos] = useState([]);
   const [timer, setTimer] = useState(0);
   const [tamanhoBloco, setTamanhoBloco] = useState(0);
-  //const [numColunas, setNumColunas] = useState(0);
   const [numPalavras, setNumPalavras] = useState(0);
   const [palavrasDeJogo, setPalavrasDeJogo] = useState([]);
   const [totalPoints, setTotalPoints] = useState(0);
@@ -30,6 +29,7 @@ function App() {
   const [XYInicio, setXYInicio] = useState(undefined);
   const [XYFinal, setXYFinal] = useState(undefined);
   const [clicked, setClicked] = useState(new Array(blocos.length));
+  const [completa, setCompleta] = useState(new Array(blocos.length));
   const [palavrasEncontradas, setPalavrasEncontradas] = useState([]);
 
   const updateScoreBoard = () => {
@@ -58,7 +58,6 @@ function App() {
   }
 
   const handleOnClick = (event) => {
-    //console.log(posOfClicks.length);
     const selectedIndex = event.target.dataset.key;
 
     
@@ -78,7 +77,6 @@ function App() {
 
       let index1 = parseInt(indexS[0]);
       let index2;
-      console.log(index1);
       if (indexS.length === 2) index2 = parseInt(indexS[1]);
 
       let XInicial = Math.floor(index1 / tamanhoBloco);
@@ -96,59 +94,47 @@ function App() {
       setter(tmp);
 
       
-    } else {
+    } else if(i ===1) {
 
       let XInicial = Math.floor(letra1 / tamanhoBloco);
       let YInicial = Math.floor(letra1 % tamanhoBloco);
       let XFinal = Math.floor(letra2 / tamanhoBloco);
       let YFinal = Math.floor(letra2 % tamanhoBloco);
 
-      setClicked(new Array(blocos.length));
+      tmp = new Array(blocos.length);
 
+      tmp[XInicial * tamanhoBloco + YInicial] = false;
+
+      tmp[XFinal * tamanhoBloco + YFinal] = false;
+
+      setter(tmp);
+    } else if(i===2){
+
+      let XInicial = Math.floor(letra1 / tamanhoBloco);
+      let YInicial = Math.floor(letra1 % tamanhoBloco);
+      let XFinal = Math.floor(letra2 / tamanhoBloco);
+      let YFinal = Math.floor(letra2 % tamanhoBloco);
+
+      tmp = new Array(blocos.length);
+
+      tmp[XInicial * tamanhoBloco + YInicial] = true;
+
+      tmp[XFinal * tamanhoBloco + YFinal] = true;
+
+      setter(tmp);
 
     }
-    //console.log(setter);
-    
-
   
-   
-
-    //if (setter === setCompleted) tmp = Array.from(completed);
-    /*else*/ 
-
-    /*if (YInicial > YFinal) xOffset = -1;
-    else if (YInicial < YFinal) xOffset = 1;
-    else xOffset = 0;
-
-    if (XInicial > XFinal) yOffset = -1;
-    else if (XInicial < XFinal) yOffset = 1;
-    else yOffset = 0;
-
-    x = XInicial;
-    y = YInicial;
-
-    do {
-      tmp[x * tamanhoBloco + y] = true;
-      x += xOffset;
-      y += yOffset;
-    } while (x !== XFinal + yOffset || y !== YFinal + xOffset); */
-
-   
-    
   };
 
 
   const processCoordenates = () => {
-    console.log("Entrou");
-    console.log(posOfClicks[0]);
-    console.log(posOfClicks[1]);
-    
+
     const cordLetra1 = posOfClicks[0];
     const cordLetra2 = posOfClicks[1];
     let itsAWord = checkIfWord(cordLetra1, cordLetra2);
     
     if (itsAWord) {
-      console.log("Entrou");
       setTimeout(() => {
         setPosOfClicks([]);
         //setXYInicio(undefined);
@@ -164,67 +150,53 @@ function App() {
   };
 
   function checkIfWord(letra1, letra2) {
-    console.log(letra1);
-    let XInicial = Math.floor(letra1 / tamanhoBloco);
-    let YInicial = Math.floor(letra1 % tamanhoBloco);
-    let XFinal = Math.floor(letra2 / tamanhoBloco);
-    let YFinal = Math.floor(letra2 % tamanhoBloco);
 
-    //console.log(XInicial);
-    //console.log(YInicial);
+    let YInicial = Math.floor(letra1 / tamanhoBloco);
+    let XInicial = Math.floor(letra1 % tamanhoBloco);
+    let YFinal = Math.floor(letra2 / tamanhoBloco);
+    let XFinal = Math.floor(letra2 % tamanhoBloco);
+
+    const tamanhoPalavra = Math.max(Math.abs(XInicial - XFinal),Math.abs(YInicial - YFinal)) + 1;
+
 
     let xOffset;
     let yOffset;
     let palavra = "";
     let tmp;
-    let x;
-    let y;
+    let tmpClicked = new Array(blocos.length);
 
-    if (YInicial > YFinal) xOffset = -1;
-    else if (YInicial < YFinal) xOffset = 1;
-    else xOffset = 0;
-
-    if (XInicial > XFinal) yOffset = -1;
-    else if (XInicial < XFinal) yOffset = 1;
+    if (YInicial > YFinal) yOffset = -1;
+    else if (YInicial < YFinal) yOffset = 1;
     else yOffset = 0;
 
-    x = XInicial;
-    y = YInicial;
-    console.log(tamanhoBloco);
-    //console.log(blocos[0].name);
-    
-    if (x !== XFinal + yOffset && y !== YFinal + xOffset){
-     
-      mudarCor(setClicked, tmp, 1,letra1,letra2);
-      return false;
+    if (XInicial > XFinal) xOffset = -1;
+    else if (XInicial < XFinal) xOffset = 1;
+    else xOffset = 0;
+
+    for (let index = 0; index < tamanhoPalavra; index++) {
+      let y = YInicial + index * yOffset;
+      let x = XInicial + index * xOffset;
+
+      let i = y * tamanhoBloco + x;
+
+      palavra += blocos[i].name;
+
     }
 
-      while (true) {
-        console.log(XFinal);
-        palavra += blocos[x * tamanhoBloco + y].name;
-        x += yOffset;
-        y += xOffset;
-        console.log(x);
-        console.log(palavra);
-
-        if (x === XFinal + yOffset && y === YFinal + xOffset) break;
-      }
-
+ 
     if (palavrasDeJogo.includes(palavra)) {
       console.log(palavrasEncontradas);
       if (!palavrasEncontradas.includes(palavra)) {
         tmp = Array.from(palavrasEncontradas);
         tmp.push(palavra);
         if (palavrasEncontradas.length === palavrasDeJogo.length - 1) {
-          console.log("Vitoria");
         }
         setPalavrasEncontradas(tmp);
-        //console.log("Vitoria");
         return true;
       }
       return false;
     }
-      mudarCor(setClicked, tmp, 1, letra1, letra2);
+      mudarCor(setClicked, tmpClicked, 2, letra1, letra2);
       return false;
     
   }
@@ -239,7 +211,6 @@ function App() {
     let blocoDeJogo;
 
     blocoInicial = tabuleiroInicial(tamanhoBloco);
-    console.log(blocoInicial);
     palavrasJogo = arraydePalavras(tamanhoBloco, numPalavras);
     blocoDeJogo = meterPalavras(
       blocoInicial,
@@ -249,8 +220,6 @@ function App() {
 
     setBlocos(blocoDeJogo);
     setPalavrasDeJogo(palavrasJogo);
-    //handleOnClick(palavrasJogo,blocoDeJogo);
-    console.log(posOfClicks.length);
 
     if (gameStarted) {
       let nextTimer;
@@ -284,7 +253,7 @@ function App() {
       case "1":
         setTamanhoBloco(10);
         setNumPalavras(6);
-        setTimer(100);
+        setTimer(500);
         break;
       // Level: Intermediate
       case "2":
@@ -317,7 +286,7 @@ function App() {
           timer={timer}
           scoreBoard={scoreBoard}
           updateScoreBoard={updateScoreBoard}
-          handleOnSubmit = {handleOnSubmit}
+          handleOnSubmit={handleOnSubmit}
         />
         <Gamepanel
           letras={blocos}
@@ -327,6 +296,7 @@ function App() {
           scoreBoard={scoreBoard}
           handleOnClick={handleOnClick}
           clicked={clicked}
+          completa = {completa}
         />
       </main>
       <Footer />

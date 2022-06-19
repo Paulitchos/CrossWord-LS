@@ -37,12 +37,11 @@
 }
 
 .letra-front.clicked {
-    background-color: rgb(209, 0, 0);
+  background-color: rgb(209, 0, 0) !important;
 }
 
-.letra-front.inative {
-  box-shadow: var(--boxshadow0);
-  pointer-events: none;
+.letra-front.completa {
+  background-color:darkslategray !important;
 }
 
 .no-events {
