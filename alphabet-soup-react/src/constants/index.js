@@ -26,5 +26,3 @@ export const LETRAS_LOGOS = [
      "Y",
      "Z",
 ];
-
-export const TIMEOUTGAME = 20; // seconds

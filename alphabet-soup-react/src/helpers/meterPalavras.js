@@ -13,21 +13,15 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
 
   while (true) {
     missplace = 0;
-    arrayLetras = tabuleiroInicial(tamanhoBloco);
+    arrayLetras = tabuleiroInicial(tamanhoBloco); //reset do tabuleiro caso misplace
     //console.log(arrayPalavras);
 
-    for (
-      let indexPalavra = 0;
-      indexPalavra < arrayPalavras.length;
-      indexPalavra++
-    ) {
+    for (let indexPalavra = 0;indexPalavra < arrayPalavras.length;indexPalavra++) {
+
       linha = Math.round(Math.random() * (tamanhoBloco - 1));
       coluna = Math.round(Math.random() * (tamanhoBloco - 1));
       direcao = Math.round(Math.random() * 7);
       tamanhoPalavra = arrayPalavras[indexPalavra].length;
-      //console.log(linha);
-      //console.log(coluna);
-      //console.log(direcao);
 
       switch (direcao) {
         default: // esquerda para direita
@@ -64,12 +58,8 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
           break;
       }
 
-      if (
-        coluna + (tamanhoPalavra - 1) * xValor < 0 ||
-        tamanhoBloco <= coluna + (tamanhoPalavra - 1) * xValor ||
-        linha + (tamanhoPalavra - 1) * yValor < 0 ||
-        tamanhoBloco <= linha + (tamanhoPalavra - 1) * yValor
-      ) {
+      if (coluna + (tamanhoPalavra - 1) * xValor < 0 || tamanhoBloco <= coluna + (tamanhoPalavra - 1) * xValor ||
+        linha + (tamanhoPalavra - 1) * yValor < 0 || tamanhoBloco <= linha + (tamanhoPalavra - 1) * yValor) {
         indexPalavra--;
         continue;
       }
@@ -83,6 +73,7 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
           break;
         } 
       }
+
       if (missplace === 1) break;
 
       for (let letraIndex = 0;letraIndex < arrayPalavras[indexPalavra].length;letraIndex++) {
@@ -97,9 +88,6 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
     }
     if (missplace === 0) break;
   }
-  //console.log("Saí");
-
-  //console.log("Check6");
 
   
   for (let i = 0; i < tamanhoBloco; i++) {
