@@ -42,10 +42,6 @@ function ControlPanel(props) {
           <dt>Tempo de Jogo:</dt>
           <dd id="gameTime">{timer}</dd>
         </dl>
-        <dl className={`list-item right${gameStartedClass}`}>
-          <dt>Pontuação TOP:</dt>
-          <dd id="pointsTop">0</dd>
-        </dl>
         <dl className={`list-item left${gameStartedClass}`}>
           <dt>Pontuação:</dt>
           <dd id="points">{scoreBoard}</dd>

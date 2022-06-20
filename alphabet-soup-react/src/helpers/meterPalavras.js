@@ -101,7 +101,7 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
 
   //console.log("Check6");
 
-  /*
+  
   for (let i = 0; i < tamanhoBloco; i++) {
 
     for (let j = 0; j < tamanhoBloco; j++) {
@@ -113,7 +113,7 @@ const meterPalavras = (arrayLetras, tamanhoBloco, arrayPalavras) => {
         };
       }
     }
-  } */
+  }
 
   return arrayLetras.flat();
 };

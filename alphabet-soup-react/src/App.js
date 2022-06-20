@@ -95,36 +95,34 @@ function App() {
 
       setter(tmp);
     } else {
-       tmp = new Array(completa);
-       let YInicial = Math.floor(letra1 / tamanhoBloco);
-       let XInicial = Math.floor(letra1 % tamanhoBloco);
-       let YFinal = Math.floor(letra2 / tamanhoBloco);
-       let XFinal = Math.floor(letra2 % tamanhoBloco);
+        tmp = Array.from(completa);
+        let YInicial = Math.floor(letra1 / tamanhoBloco);
+        let XInicial = Math.floor(letra1 % tamanhoBloco);
+        let YFinal = Math.floor(letra2 / tamanhoBloco);
+        let XFinal = Math.floor(letra2 % tamanhoBloco);
 
-       const tamanhoPalavra =
-         Math.max(Math.abs(XInicial - XFinal), Math.abs(YInicial - YFinal)) + 1;
+        const tamanhoPalavra = Math.max(Math.abs(XInicial - XFinal), Math.abs(YInicial - YFinal)) + 1;
 
-       let xOffset;
-       let yOffset;
+        let xOffset;
+        let yOffset;
 
-       if (YInicial > YFinal) yOffset = -1;
-       else if (YInicial < YFinal) yOffset = 1;
-       else yOffset = 0;
+        if (YInicial > YFinal) yOffset = -1;
+        else if (YInicial < YFinal) yOffset = 1;
+        else yOffset = 0;
 
-       if (XInicial > XFinal) xOffset = -1;
-       else if (XInicial < XFinal) xOffset = 1;
-       else xOffset = 0;
+        if (XInicial > XFinal) xOffset = -1;
+        else if (XInicial < XFinal) xOffset = 1;
+        else xOffset = 0;
 
-       console.log(completa);
+        for (let index = 0; index < tamanhoPalavra; index++) {
+          let y = YInicial + index * yOffset;
+          let x = XInicial + index * xOffset;
 
-       for (let index = 0; index < tamanhoPalavra; index++) {
-         let y = YInicial + index * yOffset;
-         let x = XInicial + index * xOffset;
+          let i = y * tamanhoBloco + x;
 
-         let i = y * tamanhoBloco + x;
+          tmp[i] = true;
 
-         tmp[i] = true;
-       }
+        }
        setter(tmp);
 
     }
@@ -184,6 +182,7 @@ function App() {
 
       palavra += blocos[i].name;
 
+      //console.log(i);
     }
 
  
@@ -193,7 +192,8 @@ function App() {
         tmp = Array.from(palavrasEncontradas);
         tmp.push(palavra);
         if (palavrasEncontradas.length === palavrasDeJogo.length - 1) {
-          let name = alert("Vitoria! Tiveste " + totalPoints + " pontos");
+          alert("Vitoria! Tiveste " + totalPoints + " pontos");
+          handleGameStart();
         }
         setPalavrasEncontradas(tmp);
         mudarCor(setCompleta, tmpClicked, letra1, letra2);
@@ -224,10 +224,12 @@ function App() {
       palavrasJogo
     );
 
+    setTotalPoints(0);
+    setPalavrasEncontradas([]);
     setBlocos(blocoDeJogo);
     setPalavrasDeJogo(palavrasJogo);
     setCompleta(new Array(blocos.length));
-    
+    setClicked(new Array(blocos.length));
 
     if (gameStarted) {
       let nextTimer;
@@ -238,6 +240,7 @@ function App() {
         });
 
         if (nextTimer === 0) {
+          alert("O seu tempo terminou.")
           setGameStarted(false);
         }
       }, 1000);
