@@ -187,7 +187,6 @@ function App() {
 
  
     if (palavrasDeJogo.includes(palavra)) {
-      console.log(palavrasEncontradas);
       if (!palavrasEncontradas.includes(palavra)) {
         tmp = Array.from(palavrasEncontradas);
         tmp.push(palavra);
@@ -308,6 +307,7 @@ function App() {
           handleOnClick={handleOnClick}
           clicked={clicked}
           completa={completa}
+          palavrasEncontradas={palavrasEncontradas}
         />
       </main>
       <Footer />

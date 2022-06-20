@@ -56,3 +56,8 @@
 .esconder{
   display: none !important;
 }
+
+.encontrada{
+  text-decoration: line-through;
+  text-decoration-color:red;
+}

@@ -2,7 +2,7 @@ import "./gamepanel.css";
 import Letras from "../letras/letras";
 
 function GamePanel(props) {
-  const { letras, selectedLevel , gameStarted, handleOnClick,palavras,clicked,completa} = props;
+  const { letras, selectedLevel , gameStarted, handleOnClick,palavras,clicked,completa,palavrasEncontradas} = props;
   let gameClasse = "";
   
  switch (selectedLevel) {
@@ -24,7 +24,7 @@ function GamePanel(props) {
           <h3 className={gameStarted ? "" : " esconder"}>Palavras do Jogo</h3>
 
           {palavras.map((palavras) => (
-            <h2 className={gameStarted ? "" : " esconder"}>{palavras}</h2>
+            <h2 className={"" + (gameStarted ? "" : " esconder") + (palavrasEncontradas.includes(palavras) ? " encontrada" : "")}>{palavras}</h2>
           ))}
         </div>
         <div
